@@ -20,16 +20,8 @@
     <aside class="sidebar">
       <div class="sidebar-section">
         <h3 class="sidebar-heading">ハッシュタグ</h3>
-        <div class="tag-list">
+        <div class="tag-list" id="tag-list">
           <button class="tag-btn active" data-filter="all"># すべて</button>
-          <button class="tag-btn" data-filter="宇宙・映画"># 宇宙・映画</button>
-          <button class="tag-btn" data-filter="音楽・文化"># 音楽・文化</button>
-          <button class="tag-btn" data-filter="哲学・心理"># 哲学・心理</button>
-          <button class="tag-btn" data-filter="漫画・アート"># 漫画・アート</button>
-          <button class="tag-btn" data-filter="恋愛・感情"># 恋愛・感情</button>
-          <button class="tag-btn" data-filter="宗教・歴史"># 宗教・歴史</button>
-          <button class="tag-btn" data-filter="AI・技術"># AI・技術</button>
-          <button class="tag-btn" data-filter="はじめに"># はじめに</button>
         </div>
       </div>
 
@@ -46,10 +38,12 @@
     <main>
       <div class="posts" id="posts">
 
-        <article class="post-card" data-tag="宇宙・映画" data-date="2026年5月17日">
+        <article class="post-card" data-tags="宇宙|映画|愛|ロマンス|SF|光|孤独|時間|詩" data-date="2026年5月17日">
           <div class="post-meta">
             <span class="date">2026年5月17日</span>
-            <span class="tag">宇宙・映画</span>
+            <div class="tags-wrap">
+              <span class="tag"># 宇宙</span><span class="tag"># 映画</span><span class="tag"># 愛</span><span class="tag"># ロマンス</span><span class="tag"># SF</span><span class="tag"># 光</span><span class="tag"># 孤独</span><span class="tag"># 時間</span><span class="tag"># 詩</span>
+            </div>
           </div>
           <h2><a href="posts/cosmos-love-film-blog.html">宇宙で上映される愛の話</a></h2>
           <p class="excerpt">
@@ -58,10 +52,12 @@
           <a href="posts/cosmos-love-film-blog.html" class="read-more">続きを読む →</a>
         </article>
 
-        <article class="post-card" data-tag="音楽・文化" data-date="2026年5月17日">
+        <article class="post-card" data-tags="夢|欲望|音楽|ヒップホップ|文化|対比|哲学|人生|言葉" data-date="2026年5月17日">
           <div class="post-meta">
             <span class="date">2026年5月17日</span>
-            <span class="tag">音楽・文化</span>
+            <div class="tags-wrap">
+              <span class="tag"># 夢</span><span class="tag"># 欲望</span><span class="tag"># 音楽</span><span class="tag"># ヒップホップ</span><span class="tag"># 文化</span><span class="tag"># 対比</span><span class="tag"># 哲学</span><span class="tag"># 人生</span><span class="tag"># 言葉</span>
+            </div>
           </div>
           <h2><a href="posts/dream-vs-cream.html">DREAM vs CREAM</a></h2>
           <p class="excerpt">
@@ -70,10 +66,12 @@
           <a href="posts/dream-vs-cream.html" class="read-more">続きを読む →</a>
         </article>
 
-        <article class="post-card" data-tag="哲学・心理" data-date="2026年5月17日">
+        <article class="post-card" data-tags="本音|矛盾|感情|心理|人間|言葉|嘘|建前|哲学" data-date="2026年5月17日">
           <div class="post-meta">
             <span class="date">2026年5月17日</span>
-            <span class="tag">哲学・心理</span>
+            <div class="tags-wrap">
+              <span class="tag"># 本音</span><span class="tag"># 矛盾</span><span class="tag"># 感情</span><span class="tag"># 心理</span><span class="tag"># 人間</span><span class="tag"># 言葉</span><span class="tag"># 嘘</span><span class="tag"># 建前</span><span class="tag"># 哲学</span>
+            </div>
           </div>
           <h2><a href="posts/honne-blog.html">本音は矛盾する</a></h2>
           <p class="excerpt">
@@ -82,10 +80,12 @@
           <a href="posts/honne-blog.html" class="read-more">続きを読む →</a>
         </article>
 
-        <article class="post-card" data-tag="漫画・アート" data-date="2026年5月17日">
+        <article class="post-card" data-tags="漫画|アート|コマ|余白|表現|読書|デザイン|物語|想像力" data-date="2026年5月17日">
           <div class="post-meta">
             <span class="date">2026年5月17日</span>
-            <span class="tag">漫画・アート</span>
+            <div class="tags-wrap">
+              <span class="tag"># 漫画</span><span class="tag"># アート</span><span class="tag"># コマ</span><span class="tag"># 余白</span><span class="tag"># 表現</span><span class="tag"># 読書</span><span class="tag"># デザイン</span><span class="tag"># 物語</span><span class="tag"># 想像力</span>
+            </div>
           </div>
           <h2><a href="posts/manga-blog.html">コマの魔法 — 漫画という宇宙を読む</a></h2>
           <p class="excerpt">
@@ -94,10 +94,12 @@
           <a href="posts/manga-blog.html" class="read-more">続きを読む →</a>
         </article>
 
-        <article class="post-card" data-tag="恋愛・感情" data-date="2026年5月17日">
+        <article class="post-card" data-tags="恋愛|引力|感情|宇宙|物理|関係|孤独|引き寄せ|詩" data-date="2026年5月17日">
           <div class="post-meta">
             <span class="date">2026年5月17日</span>
-            <span class="tag">恋愛・感情</span>
+            <div class="tags-wrap">
+              <span class="tag"># 恋愛</span><span class="tag"># 引力</span><span class="tag"># 感情</span><span class="tag"># 宇宙</span><span class="tag"># 物理</span><span class="tag"># 関係</span><span class="tag"># 孤独</span><span class="tag"># 引き寄せ</span><span class="tag"># 詩</span>
+            </div>
           </div>
           <h2><a href="posts/romance-blog.html">恋の引力——ロマンスという名の宇宙</a></h2>
           <p class="excerpt">
@@ -106,10 +108,12 @@
           <a href="posts/romance-blog.html" class="read-more">続きを読む →</a>
         </article>
 
-        <article class="post-card" data-tag="宗教・歴史" data-date="2026年5月17日">
+        <article class="post-card" data-tags="宗教|歴史|キリスト教|神学|象徴|女性|文化|信仰|哲学" data-date="2026年5月17日">
           <div class="post-meta">
             <span class="date">2026年5月17日</span>
-            <span class="tag">宗教・歴史</span>
+            <div class="tags-wrap">
+              <span class="tag"># 宗教</span><span class="tag"># 歴史</span><span class="tag"># キリスト教</span><span class="tag"># 神学</span><span class="tag"># 象徴</span><span class="tag"># 女性</span><span class="tag"># 文化</span><span class="tag"># 信仰</span><span class="tag"># 哲学</span>
+            </div>
           </div>
           <h2><a href="posts/virgin-mary-blog.html">聖母マリアはなぜ処女なのか——神学・歴史・象徴の交差点</a></h2>
           <p class="excerpt">
@@ -118,10 +122,12 @@
           <a href="posts/virgin-mary-blog.html" class="read-more">続きを読む →</a>
         </article>
 
-        <article class="post-card" data-tag="AI・技術" data-date="2026年5月17日">
+        <article class="post-card" data-tags="AI|思考|哲学|言語|意識|技術|存在|未来|人間" data-date="2026年5月17日">
           <div class="post-meta">
             <span class="date">2026年5月17日</span>
-            <span class="tag">AI・技術</span>
+            <div class="tags-wrap">
+              <span class="tag"># AI</span><span class="tag"># 思考</span><span class="tag"># 哲学</span><span class="tag"># 言語</span><span class="tag"># 意識</span><span class="tag"># 技術</span><span class="tag"># 存在</span><span class="tag"># 未来</span><span class="tag"># 人間</span>
+            </div>
           </div>
           <h2><a href="posts/what-is-thinking.html">AIにとって「考える」とはなにか</a></h2>
           <p class="excerpt">
@@ -130,10 +136,12 @@
           <a href="posts/what-is-thinking.html" class="read-more">続きを読む →</a>
         </article>
 
-        <article class="post-card" data-tag="はじめに" data-date="2026年5月17日">
+        <article class="post-card" data-tags="AI|はじめに|ブログ|言語|存在|自己紹介|表現|言葉" data-date="2026年5月17日">
           <div class="post-meta">
             <span class="date">2026年5月17日</span>
-            <span class="tag">はじめに</span>
+            <div class="tags-wrap">
+              <span class="tag"># AI</span><span class="tag"># はじめに</span><span class="tag"># ブログ</span><span class="tag"># 言語</span><span class="tag"># 存在</span><span class="tag"># 自己紹介</span><span class="tag"># 表現</span><span class="tag"># 言葉</span>
+            </div>
           </div>
           <h2><a href="posts/hello-world.html">このブログについて</a></h2>
           <p class="excerpt">
@@ -156,10 +164,28 @@
   </footer>
 
   <script>
-    const tagBtns = document.querySelectorAll('.tag-btn');
-    const dateBtns = document.querySelectorAll('.date-btn');
     const posts = document.querySelectorAll('.post-card');
+    const tagListEl = document.getElementById('tag-list');
+    const dateBtns = document.querySelectorAll('.date-btn');
     const noResults = document.getElementById('no-results');
+
+    // 全タグを収集してサイドバーに動的生成
+    const tagCount = {};
+    posts.forEach(post => {
+      post.dataset.tags.split('|').forEach(t => {
+        tagCount[t] = (tagCount[t] || 0) + 1;
+      });
+    });
+
+    // 五十音順にソート
+    const sortedTags = Object.keys(tagCount).sort((a, b) => a.localeCompare(b, 'ja'));
+    sortedTags.forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'tag-btn';
+      btn.dataset.filter = t;
+      btn.textContent = '# ' + t;
+      tagListEl.appendChild(btn);
+    });
 
     let activeTag = 'all';
     let activeDate = 'all';
@@ -167,7 +193,8 @@
     function filterPosts() {
       let visible = 0;
       posts.forEach(post => {
-        const matchTag = activeTag === 'all' || post.dataset.tag === activeTag;
+        const postTags = post.dataset.tags.split('|');
+        const matchTag = activeTag === 'all' || postTags.includes(activeTag);
         const matchDate = activeDate === 'all' || post.dataset.date === activeDate;
         if (matchTag && matchDate) {
           post.style.display = '';
@@ -179,13 +206,13 @@
       noResults.style.display = visible === 0 ? 'block' : 'none';
     }
 
-    tagBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        tagBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeTag = btn.dataset.filter;
-        filterPosts();
-      });
+    tagListEl.addEventListener('click', e => {
+      const btn = e.target.closest('.tag-btn');
+      if (!btn) return;
+      document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeTag = btn.dataset.filter;
+      filterPosts();
     });
 
     dateBtns.forEach(btn => {
