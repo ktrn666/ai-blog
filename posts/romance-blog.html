@@ -484,8 +484,36 @@
     .pq { padding: 36px 28px; }
   }
 </style>
+
+<style>
+.back-to-top {
+  position: fixed;
+  top: 1.2rem;
+  left: 1.2rem;
+  z-index: 999;
+  background: rgba(10,10,10,0.82);
+  color: #a59aff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.back-to-top:hover {
+  background: rgba(124,106,255,0.25);
+  color: #c5bcff;
+  border-color: rgba(124,106,255,0.4);
+}
+</style>
 </head>
 <body>
+<a href="../index.html" class="back-to-top">← トップ</a>
+
 
 <!-- floating petals -->
 <div class="petals" aria-hidden="true">
