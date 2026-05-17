@@ -357,23 +357,78 @@ footer {
   font-size: 0.82rem;
 }
 
+/* ── スマホ用トグルボタン（PC では非表示） ── */
+.filter-toggle { display: none; }
+.sidebar-inner { display: contents; }
+
 /* ── Mobile ── */
 @media (max-width: 720px) {
   .layout {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
+
+  /* 記事を先に、サイドバーを後に */
+  main        { order: 1; }
+  .sidebar    { order: 2; margin-top: 2.5rem; }
 
   .sidebar {
     position: static;
     border-right: none;
-    border-bottom: 1px solid var(--border);
     padding-right: 0;
-    padding-bottom: 1.5rem;
+    gap: 0;
+  }
+
+  /* トグルボタン */
+  .filter-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted2);
+    font-size: 0.85rem;
+    font-family: inherit;
+    padding: 0.65rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .filter-toggle:hover { border-color: var(--accent); }
+
+  .filter-toggle-label { font-weight: 500; }
+
+  .filter-active-tag {
+    color: var(--accent-light);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+  }
+
+  .filter-toggle-arrow {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* アコーディオン本体 */
+  .sidebar-inner {
+    display: none;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1.2rem;
+    padding: 1.2rem;
+    margin-top: 0.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
   }
+
+  .sidebar-inner.open { display: flex; }
 
   .sidebar-section { flex: 1; min-width: 130px; }
 

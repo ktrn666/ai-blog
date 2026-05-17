@@ -16,21 +16,31 @@
 
   <div class="layout container">
 
-    <!-- 左サイドバー -->
+    <!-- 左サイドバー（PC: 左固定 / スマホ: 記事の後に折りたたみ） -->
     <aside class="sidebar">
-      <div class="sidebar-section">
-        <h3 class="sidebar-heading">ハッシュタグ</h3>
-        <div class="tag-list" id="tag-list">
-          <button class="tag-btn active" data-filter="all"># すべて</button>
-        </div>
-      </div>
 
-      <div class="sidebar-section">
-        <h3 class="sidebar-heading">公開日</h3>
-        <ul class="date-list">
-          <li><button class="date-btn active" data-date="all">すべて</button></li>
-          <li><button class="date-btn" data-date="2026年5月17日">2026年5月17日 <span class="date-count">8</span></button></li>
-        </ul>
+      <!-- スマホ用トグル -->
+      <button class="filter-toggle" id="filter-toggle" aria-expanded="false">
+        <span class="filter-toggle-label">タグで絞り込む</span>
+        <span class="filter-active-tag" id="filter-active-tag"></span>
+        <span class="filter-toggle-arrow">▾</span>
+      </button>
+
+      <div class="sidebar-inner" id="sidebar-inner">
+        <div class="sidebar-section">
+          <h3 class="sidebar-heading">ハッシュタグ</h3>
+          <div class="tag-list" id="tag-list">
+            <button class="tag-btn active" data-filter="all"># すべて</button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-heading">公開日</h3>
+          <ul class="date-list">
+            <li><button class="date-btn active" data-date="all">すべて</button></li>
+            <li><button class="date-btn" data-date="2026年5月17日">2026年5月17日 <span class="date-count">8</span></button></li>
+          </ul>
+        </div>
       </div>
     </aside>
 
@@ -166,20 +176,19 @@
   <script>
     const posts = document.querySelectorAll('.post-card');
     const tagListEl = document.getElementById('tag-list');
-    const dateBtns = document.querySelectorAll('.date-btn');
     const noResults = document.getElementById('no-results');
+    const filterToggle = document.getElementById('filter-toggle');
+    const sidebarInner = document.getElementById('sidebar-inner');
+    const filterActiveTag = document.getElementById('filter-active-tag');
 
-    // 全タグを収集してサイドバーに動的生成
+    // タグを収集して五十音順で生成
     const tagCount = {};
     posts.forEach(post => {
       post.dataset.tags.split('|').forEach(t => {
         tagCount[t] = (tagCount[t] || 0) + 1;
       });
     });
-
-    // 五十音順にソート
-    const sortedTags = Object.keys(tagCount).sort((a, b) => a.localeCompare(b, 'ja'));
-    sortedTags.forEach(t => {
+    Object.keys(tagCount).sort((a, b) => a.localeCompare(b, 'ja')).forEach(t => {
       const btn = document.createElement('button');
       btn.className = 'tag-btn';
       btn.dataset.filter = t;
@@ -193,17 +202,14 @@
     function filterPosts() {
       let visible = 0;
       posts.forEach(post => {
-        const postTags = post.dataset.tags.split('|');
-        const matchTag = activeTag === 'all' || postTags.includes(activeTag);
-        const matchDate = activeDate === 'all' || post.dataset.date === activeDate;
-        if (matchTag && matchDate) {
-          post.style.display = '';
-          visible++;
-        } else {
-          post.style.display = 'none';
-        }
+        const match = (activeTag === 'all' || post.dataset.tags.split('|').includes(activeTag))
+                   && (activeDate === 'all' || post.dataset.date === activeDate);
+        post.style.display = match ? '' : 'none';
+        if (match) visible++;
       });
       noResults.style.display = visible === 0 ? 'block' : 'none';
+      // スマホ用: 選択中タグをトグルボタンに表示
+      filterActiveTag.textContent = activeTag === 'all' ? '' : '# ' + activeTag;
     }
 
     tagListEl.addEventListener('click', e => {
@@ -213,16 +219,32 @@
       btn.classList.add('active');
       activeTag = btn.dataset.filter;
       filterPosts();
+      // スマホではタグ選択後に閉じる
+      if (window.innerWidth < 720) closeSidebar();
     });
 
-    dateBtns.forEach(btn => {
+    document.querySelectorAll('.date-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        dateBtns.forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         activeDate = btn.dataset.date;
         filterPosts();
+        if (window.innerWidth < 720) closeSidebar();
       });
     });
+
+    // スマホ用アコーディオン
+    filterToggle.addEventListener('click', () => {
+      const open = sidebarInner.classList.toggle('open');
+      filterToggle.setAttribute('aria-expanded', open);
+      filterToggle.querySelector('.filter-toggle-arrow').textContent = open ? '▴' : '▾';
+    });
+
+    function closeSidebar() {
+      sidebarInner.classList.remove('open');
+      filterToggle.setAttribute('aria-expanded', false);
+      filterToggle.querySelector('.filter-toggle-arrow').textContent = '▾';
+    }
   </script>
 </body>
 </html>
