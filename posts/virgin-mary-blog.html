@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聖母マリアはなぜ処女なのか——神学・歴史・象徴の交差点</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Serif+JP:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --midnight: #0d1117;
+    --navy: #141b2d;
+    --parchment: #f7f2e8;
+    --cream: #ede8da;
+    --gold: #c9a84c;
+    --gold-light: #e8c87a;
+    --gold-pale: rgba(201,168,76,0.12);
+    --rose: #8b3a52;
+    --text: #2a2318;
+    --text-light: #5a5040;
+    --border: rgba(201,168,76,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--midnight);
+    color: var(--parchment);
+    font-family: 'Noto Serif JP', serif;
+    overflow-x: hidden;
+  }
+
+  /* ── RADIANT BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(139,58,82,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative mandorla / halo */
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: min(80vw, 600px);
+    height: min(80vw, 600px);
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.12);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+      0 0 0 30px rgba(201,168,76,0.04),
+      0 0 0 80px rgba(201,168,76,0.025),
+      0 0 0 150px rgba(201,168,76,0.01);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '☩';
+    position: absolute;
+    font-size: clamp(200px, 35vw, 500px);
+    color: rgba(201,168,76,0.025);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    font-family: 'Cinzel', serif;
+    line-height: 1;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s 0.2s ease forwards;
+  }
+
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '—';
+    margin: 0 16px;
+    opacity: 0.5;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 7vw, 96px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--parchment);
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s 0.4s ease forwards;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-subtitle {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(14px, 2.2vw, 20px);
+    font-style: italic;
+    color: rgba(247,242,232,0.88);
+    margin-top: 24px;
+    max-width: 560px;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s 0.6s ease forwards;
+  }
+
+  .hero-divider {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 40px auto;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s 0.8s ease forwards;
+  }
+
+  .hero-meta {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: rgba(201,168,76,0.75);
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s 1s ease forwards;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 7vw, 96px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--parchment);
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s 0.4s ease forwards;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    position: relative;
+    z-index: 1;
+    background: var(--parchment);
+    color: var(--text);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    position: relative;
+  }
+
+  .section + .section {
+    border-top: 1px solid rgba(42,35,24,0.1);
+  }
+
+  /* ── CHAPTER LABEL ── */
+  .chapter-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .ch-num {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .ch-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  /* ── HEADINGS ── */
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--midnight);
+    margin-bottom: 32px;
+  }
+
+  h2 em { font-style: italic; color: var(--rose); }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 600;
+    color: var(--midnight);
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── BODY ── */
+  .body-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(14px, 2vw, 16px);
+    line-height: 2.1;
+    color: var(--text);
+  }
+
+  .body-text p + p { margin-top: 1.6em; }
+
+  .body-text strong {
+    color: var(--midnight);
+    font-weight: 700;
+  }
+
+  /* ── SCRIPTURE BLOCK ── */
+  .scripture {
+    margin: 40px 0;
+    padding: 32px 40px;
+    background: var(--midnight);
+    color: var(--parchment);
+    position: relative;
+    border-left: 3px solid var(--gold);
+  }
+
+  .scripture::before {
+    content: '✦';
+    position: absolute;
+    top: -14px;
+    left: 40px;
+    background: var(--midnight);
+    padding: 0 8px;
+    font-size: 14px;
+    color: var(--gold);
+  }
+
+  .scripture p {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-style: italic;
+    line-height: 1.8;
+    color: var(--cream);
+  }
+
+  .scripture cite {
+    display: block;
+    margin-top: 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    margin: 48px -20px;
+    padding: 40px 48px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    background: linear-gradient(135deg, rgba(201,168,76,0.04), transparent);
+  }
+
+  .pull-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 3.5vw, 34px);
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--midnight);
+  }
+
+  .pull-quote cite {
+    display: block;
+    margin-top: 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ── INFO CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    margin: 40px 0;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .card {
+    background: var(--parchment);
+    padding: 28px 24px;
+    position: relative;
+  }
+
+  .card-icon {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .card-body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--text-light);
+  }
+
+  /* ── DENOMINATION TABLE ── */
+  .denom-list {
+    margin: 36px 0;
+    border: 1px solid var(--border);
+  }
+
+  .denom-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .denom-item:last-child { border-bottom: none; }
+
+  .denom-name {
+    background: var(--midnight);
+    color: var(--gold-light);
+    padding: 20px 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    display: flex;
+    align-items: center;
+  }
+
+  .denom-content {
+    padding: 20px 24px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  /* ── DARK INTERLUDE ── */
+  .dark-section {
+    background: var(--navy);
+    color: var(--parchment);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dark-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(201,168,76,0.06), transparent);
+    pointer-events: none;
+  }
+
+  .dark-section .body-text { color: rgba(247,242,232,0.93); }
+  .dark-section h2 { color: var(--parchment); }
+  .dark-section h3 { color: var(--gold-light); border-bottom-color: rgba(201,168,76,0.2); }
+  .dark-section .section { border-top-color: rgba(255,255,255,0.07) !important; }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    margin: 40px 0;
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), rgba(201,168,76,0.1));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 36px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -38px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--parchment);
+  }
+
+  .dark-section .timeline-item::before {
+    border-color: var(--navy);
+  }
+
+  .timeline-date {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .timeline-body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+
+  .timeline-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--midnight);
+  }
+
+  .dark-section .timeline-title { color: var(--parchment); }
+
+  /* ── CLOSING BANNER ── */
+  .closing {
+    background: var(--midnight);
+    color: var(--parchment);
+    text-align: center;
+    padding: 100px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .closing::before {
+    content: 'AVE MARIA';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cinzel', serif;
+    font-size: clamp(40px, 10vw, 140px);
+    letter-spacing: 0.2em;
+    color: rgba(201,168,76,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .closing h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 56px);
+    color: var(--parchment);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+  }
+
+  .closing h2 em { color: var(--gold-light); }
+
+  .closing-body {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: clamp(15px, 2.2vw, 20px);
+    color: rgba(247,242,232,0.6);
+    max-width: 560px;
+    margin: 32px auto 0;
+    line-height: 1.9;
+    position: relative;
+    z-index: 1;
+  }
+
+  .closing-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 40px auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080b11;
+    color: rgba(247,242,232,0.25);
+    text-align: center;
+    padding: 40px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    line-height: 2.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer strong { color: var(--gold); font-weight: 400; }
+
+  /* ── NOTE BOX ── */
+  .note-box {
+    margin: 36px 0;
+    padding: 24px 28px;
+    border: 1px solid var(--border);
+    background: rgba(201,168,76,0.05);
+    position: relative;
+  }
+
+  .note-label {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--parchment);
+    padding: 0 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+
+  .dark-section .note-box {
+    background: rgba(201,168,76,0.06);
+    border-color: rgba(201,168,76,0.2);
+  }
+
+  .dark-section .note-label {
+    background: var(--navy);
+  }
+
+  .note-body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--text-light);
+  }
+
+  .dark-section .note-body {
+    color: rgba(247,242,232,0.65);
+  }
+
+  @media (max-width: 600px) {
+    .denom-item { grid-template-columns: 1fr; }
+    .denom-name { padding: 12px 16px; }
+    .pull-quote { margin: 40px 0; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="hero-eyebrow">神学 · 歴史 · 象徴</div>
+  <h1>聖母マリアは<br>なぜ<em>処女</em>なのか</h1>
+  <p class="hero-subtitle">
+    二千年にわたってキリスト教神学の中心に置かれた問い——<br>
+    聖書・言語・歴史・比較宗教学の視点から読み解く。
+  </p>
+  <div class="hero-divider"></div>
+  <div class="hero-meta">THEOLOGY · HISTORY · SYMBOLISM · 2026</div>
+</header>
+
+<!-- ══ MAIN ══ -->
+<main>
+
+<!-- §0 はじめに -->
+<div class="section">
+  <div class="chapter-label">
+    <span class="ch-num">PROLOGUE</span>
+    <div class="ch-line"></div>
+  </div>
+  <h2>二千年間、問われ続けた謎</h2>
+
+  <div class="body-text">
+    <p>
+      「マリアはいかにして神の子を宿したのか」——この問いは、キリスト教が誕生した瞬間から現代に至るまで、神学者・歴史家・哲学者・懐疑論者たちが論じ続けてきた。マリアの処女性（ヴァージニティ）は、単なる生物学的な問いではない。それは神の性質、救済の意味、人間と神の関係についての神学的宇宙観と深く結びついている。
+    </p>
+    <p>
+      この記事では、聖書の原語にまで遡り、初代教会の議論をたどり、カトリック・プロテスタント・正教会それぞれの立場を比較し、さらには比較宗教学・文化史の観点まで広げながら、「なぜマリアは処女なのか」という問いに多角的に迫る。答えは一つではない——しかし問いの深さを知ることで、キリスト教の核心に触れることができる。
+    </p>
+  </div>
+</div>
+
+<!-- §1 聖書の根拠 -->
+<div class="section">
+  <div class="chapter-label">
+    <span class="ch-num">CHAPTER I</span>
+    <div class="ch-line"></div>
+  </div>
+  <h2>聖書が語る——<br><em>処女降誕</em>の記述</h2>
+
+  <div class="body-text">
+    <p>
+      「処女降誕（Virgin Birth）」の根拠とされる聖書箇所は、主に二つある。旧約聖書のイザヤ書と、新約聖書のマタイ・ルカによる福音書だ。
+    </p>
+  </div>
+
+  <h3>イザヤ書 7章14節——预言の源泉</h3>
+
+  <div class="scripture">
+    <p>「それゆえ、主みずから、あなたがたにしるしを与えられる。見よ、処女がみごもって、男の子を産む。そしてその名をインマヌエルと呼ぶ。」</p>
+    <cite>— イザヤ書 7:14（旧約聖書）</cite>
+  </div>
+
+  <div class="body-text">
+    <p>
+      ここで最も重要な論点が生じる。ヘブライ語原典では「処女」に当たる語は <strong>「アルマー（עַלְמָה）」</strong> であり、これは本来「若い女性・娘」を意味し、必ずしも「性的な処女性」を含意しない。一方、「処女」を明確に指すヘブライ語は <strong>「ベトゥラー（בְּתוּלָה）」</strong> である。
+    </p>
+    <p>
+      この箇所が重要性を持ったのは、紀元前3世紀頃にユダヤ人学者たちがヘブライ語聖書をギリシャ語に翻訳した「七十人訳聖書（セプトゥアギンタ）」において、「アルマー」が <strong>「パルテノス（παρθένος）」——明確に「処女」を意味するギリシャ語</strong>——と訳されたからだ。マタイ福音書はこのギリシャ語訳を引用し、イエスの誕生をこの預言の成就として位置づけた。
+    </p>
+  </div>
+
+  <div class="note-box">
+    <div class="note-label">LINGUISTIC NOTE</div>
+    <div class="note-body">
+      「アルマー→パルテノス」という翻訳の転換は、単なる語義の問題ではなく、ユダヤ教からキリスト教への預言解釈の移行を象徴する。プロテスタントの多くはこの翻訳の「飛躍」を指摘し、イザヤ書は元来、当時の歴史的文脈に基づく別の预言だったと論じる。
+    </div>
+  </div>
+
+  <h3>マタイ・ルカ福音書の記述</h3>
+
+  <div class="scripture">
+    <p>「マリアはヨセフと婚約していたが、ふたりがまだ一緒にならないうちに、聖霊によって身重になったことがわかった。」</p>
+    <cite>— マタイ 1:18</cite>
+  </div>
+
+  <div class="scripture">
+    <p>「天使は答えて言った、『聖霊があなたに臨み、いと高き者の力があなたをおおうであろう。それゆえに、生れ出る子は聖なるものであり、神の子と、となえられるであろう。』」</p>
+    <cite>— ルカ 1:35</cite>
+  </div>
+
+  <div class="body-text">
+    <p>
+      注目すべきは、マタイとルカの両書のみが処女降誕を語り、マルコ・ヨハネ・パウロ書簡には記述がないことだ。これは「処女降誕」が、初期キリスト教の多様な伝承の一つとして後から強調されていった可能性を示唆するとする学者も多い。一方で、マタイとルカが独立してこの伝承を共有していたことは、伝承の古さを支持するという見方もある。
+    </p>
+  </div>
+</div>
+
+<!-- §2 神学的意味 -->
+<div class="dark-section">
+  <div class="section">
+    <div class="chapter-label">
+      <span class="ch-num" style="color:var(--gold)">CHAPTER II</span>
+      <div class="ch-line" style="background:linear-gradient(to right, rgba(201,168,76,0.3), transparent)"></div>
+    </div>
+    <h2>神学が語る——<br><em>なぜ</em>処女でなければならなかったか</h2>
+
+    <div class="body-text">
+      <p>
+        聖書の記述を「事実」として受け入れるとして、神学はなぜマリアの処女性が必要であったかを説明しようとしてきた。その論理は複数の層に重なっている。
+      </p>
+    </div>
+
+    <h3>① 「原罪」からの自由——アウグスティヌスの神学</h3>
+
+    <div class="body-text">
+      <p>
+        4〜5世紀の神学者アウグスティヌスは、「原罪（Original Sin）」は性行為を通じて親から子へと遺伝すると論じた。アダムとイブの罪は人間の性欲そのものに刻印されており、あらゆる「性的な交わり」によって生まれた子は罪を受け継ぐ——というのが彼の立場だ。
+      </p>
+      <p>
+        この神学に従えば、<strong>もしイエスが「通常の性行為」によって生まれたとすれば、イエスも原罪を帯びてしまう</strong>。イエスが「罪なき神の子」として人類の罪を贖うためには、性行為という「原罪の経路」を経ない出生が必要だった。処女降誕は、イエスを原罪の連鎖から切り離すための「神学的必然」だったのだ。
+      </p>
+    </div>
+
+    <div class="pull-quote" style="border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.04);">
+      <p style="color:var(--parchment);">処女降誕とは、神が歴史に介入した<br>唯一無二の「切断点」である。</p>
+      <cite>— 神学的解釈</cite>
+    </div>
+
+    <h3>② 神の子としての証明——ローマ文化との共鳴</h3>
+
+    <div class="body-text">
+      <p>
+        初期キリスト教が広まったローマ帝国の文化には、「神と人間の女性の間に生まれた英雄」という伝承が豊富に存在していた。ヘラクレス・アスクレピオス・アレクサンドロス大王——いずれも「神的な出生」を伴う英雄たちだ。
+      </p>
+      <p>
+        この文化的文脈において、イエスの処女降誕は「イエスこそが真の神の子である」というメッセージをローマ世界の人々に訴える力を持っていた。処女降誕の教義は、ギリシャ・ローマの神話的想像力と、ユダヤ教的预言解釈が交差する地点で生まれたとも言える。
+      </p>
+    </div>
+
+    <h3>③ 聖霊の働き——神の直接的な創造行為</h3>
+
+    <div class="body-text">
+      <p>
+        より単純な神学的論理として、処女降誕は「神がすべてを創造する」という聖書全体のテーマの延長だ。旧約聖書では、不妊の女性（サラ、リベカ、ラケル、ハンナ）から子が生まれる奇跡が繰り返し語られる。処女降誕はこの系列の頂点に位置し、神の創造能力が人間の生物学的限界を超えることを示す究極の証しだ。
+      </p>
+    </div>
+
+    <div class="card-grid" style="border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.1);">
+      <div class="card" style="background:rgba(20,27,45,0.8);">
+        <div class="card-icon">✦</div>
+        <div class="card-title" style="color:var(--gold)">救済論的必然</div>
+        <div class="card-body" style="color:rgba(247,242,232,0.7)">原罪の連鎖を断ち切るため、イエスは人間の性行為によらず生まれる必要があった。</div>
+      </div>
+      <div class="card" style="background:rgba(20,27,45,0.8);">
+        <div class="card-icon">✦</div>
+        <div class="card-title" style="color:var(--gold)">神性の証明</div>
+        <div class="card-body" style="color:rgba(247,242,232,0.7)">「神の子」であることを人間に示すための、神の直接的な歴史介入の証拠。</div>
+      </div>
+      <div class="card" style="background:rgba(20,27,45,0.8);">
+        <div class="card-icon">✦</div>
+        <div class="card-title" style="color:var(--gold)">预言の成就</div>
+        <div class="card-body" style="color:rgba(247,242,232,0.7)">イザヤ書の「しるし」を成就し、旧約と新約の連続性・一貫性を確立する。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- §3 教派の違い -->
+<div class="section">
+  <div class="chapter-label">
+    <span class="ch-num">CHAPTER III</span>
+    <div class="ch-line"></div>
+  </div>
+  <h2>教派によって異なる——<br><em>処女性</em>の解釈と範囲</h2>
+
+  <div class="body-text">
+    <p>
+      「処女降誕」（イエス誕生時のマリアの処女性）については、カトリック・プロテスタント・正教会のほぼすべての主流派が認める。しかし「永遠の処女性（Perpetual Virginity）」——つまり、マリアが生涯を通じて処女であり続けたという教義——については、教派間で大きな相違がある。
+    </p>
+  </div>
+
+  <div class="denom-list">
+    <div class="denom-item">
+      <div class="denom-name">カトリック</div>
+      <div class="denom-content">
+        <strong>「永遠の処女性」を教義として確立。</strong>マリアはイエスの誕生前・誕生時・誕生後を通じて常に処女であったとされる（前処女・真処女・後処女）。553年の第二コンスタンティノポリス公会議で定式化。聖書中の「イエスの兄弟たち」はヨセフの前妻の子（プロトエヴァンゲリウム説）、または従兄弟（ヒエロニムス説）と解釈される。
+      </div>
+    </div>
+    <div class="denom-item">
+      <div class="denom-name">正教会</div>
+      <div class="denom-content">
+        <strong>カトリック同様、永遠の処女性を認める。</strong>マリアを「テオトコス（神の母）」と呼び、カトリックに匹敵する高い崇敬を捧げる。「イエスの兄弟」はヨセフの前妻の子とする解釈が一般的。マリア崇敬において東方正教会はカトリックと非常に近い立場をとる。
+      </div>
+    </div>
+    <div class="denom-item">
+      <div class="denom-name">プロテスタント</div>
+      <div class="denom-content">
+        <strong>処女降誕は認めるが、永遠の処女性は聖書に根拠がないとして否定する宗派が多い。</strong>ルターとカルヴァンは個人的に永遠の処女性を信じたが、それを教義化しなかった。現代の多くのプロテスタント諸派は、「イエスの兄弟たち」をマリアとヨセフの実子と解釈する。マリア崇敬は「聖書にない人間の伝統」として批判される。
+      </div>
+    </div>
+    <div class="denom-item" style="border-bottom:none;">
+      <div class="denom-name">自由主義神学</div>
+      <div class="denom-content">
+        <strong>処女降誕を歴史的事実ではなく神学的・象徴的な表現として解釈する立場。</strong>19〜20世紀の歴史批評学の発展により、処女降誕の記述は「イエスの神性を語るための信仰告白的言語」であり、生物学的事実を主張するものではないとする神学者も多い。ドイツの神学者ルドルフ・ブルトマンはその代表格。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- §4 歴史的発展 -->
+<div class="dark-section">
+  <div class="section">
+    <div class="chapter-label">
+      <span class="ch-num" style="color:var(--gold)">CHAPTER IV</span>
+      <div class="ch-line" style="background:linear-gradient(to right, rgba(201,168,76,0.3), transparent)"></div>
+    </div>
+    <h2>教義の歴史——<br><em>処女性</em>はいかに強化されたか</h2>
+
+    <div class="body-text">
+      <p>
+        マリアの処女性に関する教義は、イエス誕生と同時に完成していたわけではない。数百年にわたる神学的議論・公会議・論争を経て、徐々に精緻化・強化されていった。
+      </p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">1世紀末〜2世紀初頭</div>
+        <div class="timeline-body">
+          <div class="timeline-title">福音書の成立</div>
+          マタイ・ルカ福音書が処女降誕を記述。マルコ・ヨハネは触れず。パウロ書簡にも明示的な言及なし。
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2世紀頃</div>
+        <div class="timeline-body">
+          <div class="timeline-title">プロトエヴァンゲリウム（ヤコブ原福音書）</div>
+          外典文書がマリアの生涯を詳述。ヨセフが年老いた寡夫でありマリアとの間に性的関係はなかったと語る。「イエスの兄弟」はヨセフの前妻の子とする解釈の起源。
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">431年</div>
+        <div class="timeline-body">
+          <div class="timeline-title">エフェソス公会議</div>
+          マリアを「テオトコス（θεοτόκος）」——神の母——と公式に宣言。マリア崇敬が神学的に権威付けられる。
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">553年</div>
+        <div class="timeline-body">
+          <div class="timeline-title">第二コンスタンティノポリス公会議</div>
+          マリアを「永遠の処女（Ἀειπάρθενος）」と宣言。永遠の処女性が正式な教義となる。
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1854年</div>
+        <div class="timeline-body">
+          <div class="timeline-title">無原罪懐胎の教義（カトリック）</div>
+          ピウス9世が「マリア自身も原罪なしに懐胎された」と宣言。処女性と無原罪性の神学的接続が完成する。
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1950年</div>
+        <div class="timeline-body">
+          <div class="timeline-title">被昇天の教義（カトリック）</div>
+          ピウス12世が「マリアは死後、肉体ごと天へ上げられた」と宣言。マリアの身体的純粋性・処女性の神学的頂点。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- §5 比較宗教学 -->
+<div class="section">
+  <div class="chapter-label">
+    <span class="ch-num">CHAPTER V</span>
+    <div class="ch-line"></div>
+  </div>
+  <h2>神話と宗教の比較——<br>処女誕生の<em>普遍性</em>と固有性</h2>
+
+  <div class="body-text">
+    <p>
+      「神あるいは英雄が奇跡的な誕生によって生まれる」という物語は、世界の多くの文化に存在する。この普遍性は、キリスト教の処女降誕教義をどのように位置づけるか——という問いを深める。
+    </p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">ギリシャ神話</div>
+      <div class="card-body">ゼウスが様々な形（白鳥・黄金の雨・牛）に変身して人間の女性と交わり、ヘラクレス・ペルセウスなどの英雄を産む。「神的な父・人間の母」という構造はキリスト教と共鳴する。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌸</div>
+      <div class="card-title">仏教（釈迦の誕生）</div>
+      <div class="card-body">仏陀（釈迦）の母・摩耶夫人は、白い象が脇腹に入る夢を見て懐妊したとされる。聖なる子の誕生に「奇跡的な受胎」が伴う点で類似する。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">☀️</div>
+      <div class="card-title">ゾロアスター教</div>
+      <div class="card-body">救済者サオシュヤントは、湖に保存されたゾロアスターの精液によって処女から生まれるとされる。末世論的救済者の処女誕生という構造が先行して存在した。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌙</div>
+      <div class="card-title">イスラム教のマリア</div>
+      <div class="card-body">クルアーンもマリア（マルヤム）の処女懐胎を認め、イエス（イーサー）を「神の言葉」と呼ぶ。ただしイエスを「神の子」とは認めない。マリアはイスラム教でも高く崇敬される。</div>
+    </div>
+  </div>
+
+  <div class="body-text" style="margin-top:32px;">
+    <p>
+      比較宗教学者はこれらの類似を指摘し、処女誕生の物語は「偉大な人物の神聖さを語るための普遍的な神話的言語」であると論じることが多い。一方、キリスト教神学者は「他の神話との類似は表面的なものに過ぎず、キリスト教の処女降誕は歴史的・一回的な出来事として根本的に異なる」と反論する。
+    </p>
+    <p>
+      重要なのは、どちらの立場をとるにせよ、<strong>「なぜ人類はこれほど繰り返し『奇跡的な誕生』の物語を語るのか」</strong>という問いだ。聖なるものが俗なる出生の経路を経ない——この感覚は、人類が「神聖さ」を語ろうとするとき普遍的に浮かび上がる直観なのかもしれない。
+    </p>
+  </div>
+
+  <div class="pull-quote">
+    <p>処女誕生の物語は、人類が<br>「聖性」を語ろうとするとき、<br>自然と選ぶ言語なのかもしれない。</p>
+    <cite>— 比較宗教学的視座</cite>
+  </div>
+</div>
+
+<!-- §6 象徴論 -->
+<div class="dark-section">
+  <div class="section">
+    <div class="chapter-label">
+      <span class="ch-num" style="color:var(--gold)">CHAPTER VI</span>
+      <div class="ch-line" style="background:linear-gradient(to right, rgba(201,168,76,0.3), transparent)"></div>
+    </div>
+    <h2>象徴としてのマリア——<br>処女性が意味する<em>もの</em></h2>
+
+    <div class="body-text">
+      <p>
+        マリアの処女性は、単に生物学的な状態を指すのではなく、豊かな象徴的意味の網の目の中に置かれている。キリスト教文化において、マリアは「処女・母・媒介者」という三つの役割を同時に担い、それぞれが深い神学的意味を持つ。
+      </p>
+    </div>
+
+    <h3>純粋さの象徴</h3>
+    <div class="body-text">
+      <p>
+        「処女性（ヴァージニティ）」は、古代から「汚れなさ・完全性・神への献身」の象徴だった。ローマのウェスタの処女、ギリシャのアテナ女神——神殿と処女性の結びつきは普遍的だ。マリアの処女性は、彼女が神に完全に「開かれた器」であることを象徴する。彼女は人間の欲望や所有関係に縛られず、ただ神の意志にのみ応える存在として描かれる。
+      </p>
+    </div>
+
+    <h3>新しいイブとしてのマリア</h3>
+    <div class="body-text">
+      <p>
+        初代教会の神学者ユスティノスやイレナエウスは、「マリアは新しいイブ」だと論じた。最初のイブは神の言葉に従わず、罪をもたらした。マリアは天使ガブリエルの告知に「どうぞ、おことばどおり、この身に成りますように」と答え、神の言葉に完全に従った。<strong>イブの不従順に対するマリアの従順</strong>——この対比が、マリアの処女性と純粋さを神学的に意味づける。
+      </p>
+    </div>
+
+    <div class="scripture">
+      <p>「マリアは言った、『わたしは主のはしためです。どうぞ、あなたのおことばどおりに、この身に成りますように。』」</p>
+      <cite>— ルカ 1:38</cite>
+    </div>
+
+    <h3>女性性と神聖性の接続</h3>
+    <div class="body-text">
+      <p>
+        フェミニスト神学の視点からは、マリアの処女性の強調が、女性の性と身体を「穢れ」と結びつける家父長制的な神学の産物だという批判がある。女性は「処女の聖母か、誘惑者のイブか」という二項対立に縛られてきた——このクリティークは重要だ。
+      </p>
+      <p>
+        一方で、別のフェミニスト神学者たちは、マリアの処女性を「男性への依存からの自由・自律した神への奉仕」と積極的に再解釈する。マリアは誰かの「妻」や「所有物」としてではなく、神に直接応えた自律的な存在として読み直すことができる。
+      </p>
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">FEMINIST THEOLOGY</div>
+      <div class="note-body">
+        エリザベス・ジョンソン（神学者）は著書『本当に存在するマリア』において、マリアを「神に完全に従った服従的な女性」ではなく、「不正義に抵抗するマニフィカト（ルカ1:46-55）を歌った預言者的女性」として読み直すことを提唱する。処女性は純粋さの問題ではなく、神への全面的な信頼の象徴として再解釈される。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- §7 懐疑論・批判的視点 -->
+<div class="section">
+  <div class="chapter-label">
+    <span class="ch-num">CHAPTER VII</span>
+    <div class="ch-line"></div>
+  </div>
+  <h2>批判的視点——<br>懐疑論者たちの<em>問い</em></h2>
+
+  <div class="body-text">
+    <p>
+      信仰の立場を離れ、歴史学・聖書批評学・科学の観点からは、処女降誕の教義に対してどのような問いが投げかけられてきたのか。これらの問いを誠実に紹介することも、この主題を深く理解するために不可欠だ。
+    </p>
+  </div>
+
+  <h3>聖書批評学の問い</h3>
+  <div class="body-text">
+    <p>
+      歴史批評学者たちは、マタイとルカの降誕物語が互いに矛盾する細部を含み、また最も初期の福音書であるマルコが処女降誕に全く触れないことを指摘する。パウロも「ダビデの子孫として生まれ」（ローマ1:3）と書くのみで、処女降誕を論じない。これは「処女降誕が後から付加された神学的メッセージである可能性」を示唆するという見方だ。
+    </p>
+  </div>
+
+  <h3>「アルマー」問題の再燃</h3>
+  <div class="body-text">
+    <p>
+      先に述べた通り、イザヤ書7:14のヘブライ語「アルマー」は処女を必ずしも意味しない。多くのユダヤ教学者と一部のキリスト教学者は、イザヤの预言は紀元前8世紀の歴史的文脈（アッシリアの侵略に対する神の保護の預言）に属するものであり、それをイエスの誕生に結びつけるのはマタイ独自の解釈だと論じる。
+    </p>
+  </div>
+
+  <h3>「イエスの兄弟」の問題</h3>
+  <div class="body-text">
+    <p>
+      新約聖書にはイエスの「兄弟」（ガラテヤ1:19、マルコ6:3など）への複数の言及がある。カトリック・正教会は「兄弟」をギリシャ語「アデルフォス」の拡張的用法（従兄弟または義理の兄弟）と解釈するが、プロテスタントの多くは字義通りにマリアとヨセフの実子と読む。この解釈の違いが「永遠の処女性」の教義の根拠を大きく左右する。
+    </p>
+  </div>
+
+  <div class="note-box">
+    <div class="note-label">学術的留意点</div>
+    <div class="note-body">
+      これらの批判的問いは、信仰を否定するものではなく、むしろ聖書と歴史についてより深く考えるための知的道具だ。多くのキリスト教神学者は、これらの問いと真剣に格闘しながら、なお処女降誕を信仰の核心として保持している。問いに向き合うことが信仰を深める。
+    </div>
+  </div>
+</div>
+
+<!-- ══ CLOSING ══ -->
+<div class="closing">
+  <h2>問いの先に——<br><em>信仰と知性</em>の出会う場所</h2>
+  <div class="closing-divider"></div>
+  <p class="closing-body">
+    「マリアはなぜ処女なのか」——この問いに一つの決定的な答えはない。
+    聖書の言語の謎、神学の積み重ね、教派の多様性、比較宗教学の広がり、そして懐疑の問い。
+    これらすべてが交差する場所にこそ、キリスト教という宗教の深さと複雑さがある。
+    <br><br>
+    処女降誕を歴史的奇跡として信じるにせよ、神学的・象徴的言語として読むにせよ、
+    この物語が二千年間、人々の心を動かし続けてきた理由を問うことは——
+    人類が「神聖さ」をどのように語ってきたかを問うことに他ならない。
+  </p>
+</div>
+
+</main>
+
+<footer>
+  <strong>神学・歴史・宗教文化ブログ</strong> &nbsp;·&nbsp;
+  本記事は特定の宗教的立場を支持・否定するものではなく、学術的・教育的目的で執筆されました。&nbsp;·&nbsp;
+  2026
+</footer>
+
+</body>
+</html>

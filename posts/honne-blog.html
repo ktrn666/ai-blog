@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本音は矛盾する</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Serif+JP:wght@300;400;700;900&family=Noto+Sans+JP:wght@100;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:   #080808;
+    --white:   #f4f1ec;
+    --crack:   #e8521a;
+    --crack2:  #1a6de8;
+    --gray:    #2a2a2a;
+    --midgray: #888;
+    --lightgray: #d8d4cc;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Serif JP', serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Split background */
+  .hero-split {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero-split-l { background: var(--black); }
+  .hero-split-r { background: var(--white); }
+
+  /* Diagonal crack */
+  .hero-crack {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hero-crack svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  .hero-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: #aaa;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: up 1s 0.1s ease forwards;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 18vw, 240px);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    position: relative;
+    opacity: 0;
+    animation: up 1s 0.3s ease forwards;
+  }
+
+  /* Split text coloring */
+  .hero-title .t-black {
+    color: var(--white);
+    display: block;
+  }
+  .hero-title .t-white {
+    color: var(--black);
+    -webkit-text-stroke: 1px var(--black);
+    display: block;
+  }
+
+  /* Crack line through title */
+  .hero-title::after {
+    content: '';
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    top: 50%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, var(--crack) 30%, var(--crack) 70%, transparent 100%);
+    transform: rotate(-1.5deg) translateY(-50%);
+    mix-blend-mode: screen;
+  }
+
+  .hero-sub {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 400;
+    font-size: clamp(14px, 2vw, 17px);
+    line-height: 2;
+    color: #c8c4bc;
+    max-width: 460px;
+    margin-top: 40px;
+    opacity: 0;
+    animation: up 1s 0.6s ease forwards;
+    background: rgba(8,8,8,0.55);
+    padding: 16px 24px;
+    border-radius: 2px;
+  }
+
+  .hero-scroll {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 100;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--midgray);
+    padding: 32px;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: up 1s 1s ease forwards;
+  }
+
+  @keyframes up {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ─── MAIN ─── */
+  main { position: relative; z-index: 1; }
+
+  /* ─── SECTION TYPES ─── */
+
+  /* White section */
+  .s-white {
+    background: var(--white);
+    color: var(--black);
+  }
+
+  /* Black section */
+  .s-black {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  /* Split section */
+  .s-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 400px;
+  }
+  .s-split .half-l {
+    background: var(--black);
+    color: var(--white);
+    padding: 72px 48px;
+  }
+  .s-split .half-r {
+    background: var(--white);
+    color: var(--black);
+    padding: 72px 48px;
+  }
+
+  .inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 88px 40px;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  .ch-marker {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--crack);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ch-marker::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--crack);
+    opacity: 0.3;
+    max-width: 80px;
+  }
+
+  .s-white .ch-marker::after { opacity: 0.25; }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 1.0;
+    letter-spacing: 0.02em;
+    margin-bottom: 40px;
+  }
+
+  h2 .accent { color: var(--crack); }
+  .s-white h2 .accent { color: var(--crack); }
+
+  h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: clamp(17px, 2.5vw, 22px);
+    margin: 48px 0 18px;
+    position: relative;
+    padding-left: 20px;
+  }
+  h3::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    bottom: 0.2em;
+    width: 3px;
+    background: var(--crack);
+  }
+
+  .s-white h3 { color: var(--black); }
+  .s-black h3 { color: var(--white); }
+
+  .body {
+    font-size: clamp(14px, 1.9vw, 16px);
+    line-height: 2.2;
+    font-weight: 400;
+  }
+  .body p + p { margin-top: 1.6em; }
+
+  .s-white .body { color: #2a2520; }
+  .s-black .body { color: rgba(244,241,236,0.93); }
+
+  /* ─── CONTRADICTION PAIR ─── */
+  .contra-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 52px 0;
+    border: 1px solid rgba(232,82,26,0.3);
+  }
+
+  .contra-side {
+    padding: 36px 32px;
+    position: relative;
+  }
+
+  .contra-side.left {
+    background: var(--black);
+    color: var(--white);
+    border-right: 1px solid var(--crack);
+  }
+  .contra-side.right {
+    background: var(--white);
+    color: var(--black);
+  }
+
+  .contra-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    margin-bottom: 14px;
+  }
+  .contra-side.left .contra-label { color: var(--crack); }
+  .contra-side.right .contra-label { color: var(--crack2); }
+
+  .contra-text {
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .contra-sub {
+    font-size: 13px;
+    line-height: 1.9;
+    margin-top: 12px;
+    opacity: 0.88;
+    font-weight: 400;
+  }
+
+  /* VS badge */
+  .contra-vs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .contra-vs::before {
+    content: 'VS';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--crack);
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    z-index: 10;
+  }
+
+  /* ─── PULL QUOTE ─── */
+  .pq {
+    margin: 56px 0;
+    padding: 52px 16px;
+    text-align: center;
+    border-top: 1px solid rgba(232,82,26,0.2);
+    border-bottom: 1px solid rgba(232,82,26,0.2);
+    position: relative;
+  }
+  .pq::before {
+    content: attr(data-num);
+    position: absolute;
+    top: -1px;
+    left: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--crack);
+    background: inherit;
+    padding-right: 12px;
+  }
+  .pq-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(20px, 3.5vw, 34px);
+    font-weight: 700;
+    line-height: 1.6;
+  }
+  .s-white .pq-text { color: var(--black); }
+  .s-black .pq-text { color: var(--white); }
+
+  .pq-text em {
+    font-style: normal;
+    color: var(--crack);
+    border-bottom: 2px solid var(--crack);
+  }
+
+  /* ─── CASE LIST ─── */
+  .case-list {
+    margin: 44px 0;
+  }
+
+  .case-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(244,241,236,0.08);
+    align-items: start;
+  }
+  .s-white .case-item {
+    border-bottom-color: rgba(0,0,0,0.08);
+  }
+  .case-item:last-child { border-bottom: none; }
+
+  .case-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--crack);
+    line-height: 1;
+    opacity: 0.5;
+  }
+
+  .case-title {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .case-body {
+    font-size: 13.5px;
+    line-height: 2;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+
+  /* ─── BIG STATEMENT ─── */
+  .big-stmt {
+    padding: 80px 40px;
+    text-align: center;
+    background: var(--crack);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .big-stmt::before {
+    content: '矛盾';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 25vw, 320px);
+    color: rgba(255,255,255,0.06);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    pointer-events: none;
+    line-height: 1;
+  }
+  .big-stmt p {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(20px, 3.5vw, 36px);
+    font-weight: 700;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ─── HALF SECTION TEXT ─── */
+  .half-l .ch-marker { color: var(--crack); }
+  .half-r .ch-marker { color: var(--crack2); }
+  .half-l .ch-marker::after { background: var(--crack); }
+  .half-r .ch-marker::after { background: var(--crack2); }
+  .half-l h2 { font-size: clamp(32px, 4.5vw, 60px); }
+  .half-r h2 { font-size: clamp(32px, 4.5vw, 60px); }
+  .half-l .body { color: rgba(244,241,236,0.93); }
+  .half-r .body { color: #2a2520; }
+  .half-l h3::before { background: var(--crack); }
+  .half-r h3::before { background: var(--crack2); }
+
+  /* ─── CLOSING ─── */
+  .closing {
+    background: var(--black);
+    padding: 120px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .closing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 30% 50%, rgba(232,82,26,0.06), transparent),
+      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(26,109,232,0.06), transparent);
+    pointer-events: none;
+  }
+  .closing-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 100;
+    font-size: 11px;
+    letter-spacing: 0.45em;
+    color: var(--midgray);
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .closing h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 10vw, 120px);
+    line-height: 1.0;
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+  }
+  .closing h2 em {
+    font-style: normal;
+    -webkit-text-stroke: 1px var(--white);
+    color: transparent;
+  }
+  .closing-body {
+    font-size: clamp(14px, 2vw, 17px);
+    line-height: 2.2;
+    font-weight: 300;
+    color: rgba(244,241,236,0.5);
+    max-width: 520px;
+    margin: 48px auto 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #030303;
+    padding: 32px 40px;
+    text-align: center;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 100;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: #333;
+    position: relative;
+    z-index: 1;
+  }
+  footer strong { color: var(--crack); font-weight: 400; }
+
+  /* ─── DIVIDER LINE ─── */
+  .crack-line {
+    height: 3px;
+    background: linear-gradient(90deg, var(--crack2) 0%, var(--crack) 50%, var(--crack2) 100%);
+    position: relative;
+  }
+  .crack-line::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: inherit;
+    filter: blur(4px);
+    opacity: 0.4;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .s-split { grid-template-columns: 1fr; }
+    .s-split .half-l, .s-split .half-r { padding: 52px 28px; }
+    .contra-pair { grid-template-columns: 1fr; }
+    .contra-side.left { border-right: none; border-bottom: 1px solid var(--crack); }
+    .contra-vs::before { display: none; }
+    .hero-split { display: none; }
+    .hero-sub { mix-blend-mode: normal; color: var(--midgray); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="hero-split" aria-hidden="true">
+    <div class="hero-split-l"></div>
+    <div class="hero-split-r"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-label">ESSAY · 感情論 · 2026</div>
+    <div class="hero-title">
+      <span class="t-black">本音は</span>
+      <span class="t-white">矛盾する</span>
+    </div>
+    <p class="hero-sub">
+      「本当の気持ち」を言葉にしようとするとき、<br>
+      私たちはいつもどこかで嘘をついている。<br>
+      なぜなら——本音は、決して一つではないから。
+    </p>
+  </div>
+  <div class="hero-scroll">SCROLL ↓</div>
+</header>
+
+<div class="crack-line"></div>
+
+<main>
+
+<!-- ══ SECTION 1：白 ══ -->
+<section class="s-white">
+  <div class="inner">
+    <div class="ch-marker">CHAPTER 01</div>
+    <h2>「本音」という<br><span class="accent">幻想</span></h2>
+
+    <div class="body">
+      <p>
+        「本音を言えば」と前置きする人がいる。しかしその後に続く言葉が「本音」であるとは限らない。なぜなら、本音というものは一層ではなく、何層にも重なって存在しているからだ。一枚めくると次の層があり、そこにも矛盾した感情が待っている。
+      </p>
+      <p>
+        たとえば、友人の成功を「心から喜んでいる」という感情。それは本当だ。しかしその下には、かすかな嫉妬がある。その嫉妬を認めると、今度は「こんなことを感じる自分は最低だ」という自己嫌悪が生まれる。さらにその下には、「でも自分にも何かできるはずだ」という静かな闘志が潜んでいる。
+      </p>
+      <p>
+        どれが「本音」なのか。答えは——すべてが本音だ。互いに矛盾していても、それぞれが本物の感情だ。「本音は一つ」だという思い込みこそが、私たちを苦しめている。
+      </p>
+    </div>
+
+    <div class="pq" data-num="01">
+      <p class="pq-text">「本音」とは<em>一枚の紙</em>ではなく、<br>何十枚も重なった<em>地層</em>のことだ。</p>
+    </div>
+
+    <div class="body">
+      <p>
+        心理学ではこれを「アンビバレンス（ambivalence）」と呼ぶ。同一の対象に対して、相反する感情を同時に抱く状態だ。愛しているのに憎い。離れたいのに離れられない。終わりにしたいのに、終わりが怖い——これは感情の異常ではなく、人間の感情システムの正常な働きだ。
+      </p>
+      <p>
+        問題は、私たちの社会が「一つの答えを求める」ことにある。「好きか嫌いか」「行くか行かないか」「賛成か反対か」——二択を求められるたびに、私たちは複雑な感情の地層を無理やり一枚に押しつぶして答える。そしてその答えを「本音」だと自分に言い聞かせる。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="crack-line"></div>
+
+<!-- ══ SECTION 2：矛盾の実例 ══ -->
+<section class="s-black">
+  <div class="inner">
+    <div class="ch-marker">CHAPTER 02</div>
+    <h2>日常に潜む<br><span class="accent">7つの矛盾</span></h2>
+
+    <div class="body">
+      <p>
+        「矛盾した感情」は特別な人だけが抱くものではない。誰もが毎日、複数の相反する本音の間で揺れながら生きている。その代表的な例を挙げてみる。
+      </p>
+    </div>
+
+    <div class="case-list">
+      <div class="case-item">
+        <div class="case-num">01</div>
+        <div>
+          <div class="case-title">「一人でいたい」と「構ってほしい」の同居</div>
+          <div class="case-body">疲れたとき、静かにしたいのに連絡が来ないと寂しくなる。誰とも話したくない気分で、でも誰かに気にかけてほしい。この矛盾は、「孤独でいる自由」と「繋がりへの欲求」という、どちらも正当な人間の根本欲求がぶつかり合っているから起きる。</div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-num">02</div>
+        <div>
+          <div class="case-title">「変わりたい」と「変わるのが怖い」</div>
+          <div class="case-body">今の自分を変えたいと心底思っている。しかし一方で、変化することへの恐怖がある。変わった後の自分が「まだ自分」でいられるのか、という実存的な不安だ。現状維持への不満と、未知への恐怖——この二つは常にセットで存在する。</div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-num">03</div>
+        <div>
+          <div class="case-title">「評価されたい」と「評価されるのが怖い」</div>
+          <div class="case-body">誰かに認めてもらいたいと思う。しかし評価の場に立つと、失敗することへの恐怖で身がすくむ。承認欲求と失敗恐怖は表裏一体だ。両方を抱えることで動けなくなる——この状態を「完璧主義」と呼ぶことが多いが、本質は感情の矛盾だ。</div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-num">04</div>
+        <div>
+          <div class="case-title">「好き」と「嫌い」が同時に存在する関係</div>
+          <div class="case-body">家族に対して、愛情と鬱陶しさを同時に抱く。長年の友人に対して、信頼と倦怠感を同時に感じる。深い関係ほど、矛盾した感情が共存しやすい。それは深さの証明でもある。</div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-num">05</div>
+        <div>
+          <div class="case-title">「正直に言いたい」と「傷つけたくない」</div>
+          <div class="case-body">思っていることを正直に言いたい。しかし、その言葉が相手を傷つけることが予測できる。どちらの本音も本物だ——自己表現への欲求と、相手への配慮。この間で私たちは毎日、無数の選択を迫られている。</div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-num">06</div>
+        <div>
+          <div class="case-title">「終わりにしたい」と「手放したくない」</div>
+          <div class="case-body">うまくいっていない関係、続けることが苦しい習慣——頭では「やめた方がいい」とわかっている。それでも手放せない。「終わり」が持つ喪失感と、「続けること」が持つ痛みの両方を同時に抱えながら、人は意外と長い時間を過ごす。</div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-num">07</div>
+        <div>
+          <div class="case-title">「自分を好きでいたい」と「自分が嫌いだ」</div>
+          <div class="case-body">自己肯定感を持ちたいと願いながら、自分の弱さや醜さを突き付けられる瞬間がある。「自分を愛せ」という言葉の難しさは、この矛盾の中にある。自己嫌悪と自己肯定は、どちらも同じ「自分を見ようとする誠実さ」から生まれる。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BIG STATEMENT ══ -->
+<div class="big-stmt">
+  <p>矛盾を抱えることは、弱さではない。<br>それは感情が誠実に生きている証拠だ。</p>
+</div>
+
+<!-- ══ SECTION 3：SPLIT ══ -->
+<section class="s-split">
+  <div class="half-l">
+    <div class="ch-marker">CHAPTER 03A</div>
+    <h2>矛盾を<br>「消そう」<br>とする罠</h2>
+
+    <div class="body">
+      <p>
+        矛盾した感情に気づくと、多くの人はどちらかを「正解」に決めようとする。「本当は好きなはずだ」「本当は嫌いなはずだ」——と、一方を押しつぶして整理しようとする。
+      </p>
+      <p>
+        しかしこれは危険だ。抑圧された感情は消えるのではなく、形を変えて出てくる。表面では「気にしていない」と言いながら、身体が緊張したり、夢に出てきたり、突然涙が出たりする——これは押しつぶした感情が表面を突き破ろうとしているサインだ。
+      </p>
+      <p>
+        「どちらかに決めなければならない」という強迫観念を手放すこと。矛盾はなくすものではなく、<strong>抱えるもの</strong>だ。
+      </p>
+    </div>
+
+    <h3>矛盾を「解決」しようとすることで起きること</h3>
+
+    <div class="body">
+      <p>
+        どちらかの感情を「本物ではない」と否定することは、自分の一部を切り捨てることに等しい。「嫉妬する自分を認めたくない」から「嫉妬していない」と決める——するとその感情は地下に潜り、より複雑な形で自分を支配し始める。
+      </p>
+    </div>
+  </div>
+
+  <div class="half-r">
+    <div class="ch-marker">CHAPTER 03B</div>
+    <h2>矛盾を<br>「持つ」<br>という技術</h2>
+
+    <div class="body">
+      <p>
+        矛盾した感情を統合することは、どちらかに決めることではない。「私はAもBも感じている」という事実を、そのまま受け取ることだ。
+      </p>
+      <p>
+        心理療法では「ダブルバインド」や「アンビバレンスの抱え方」として議論されるこの能力は、実は成熟の指標の一つだ。子どもは物事を「好き/嫌い」で単純に判断する。大人になるにつれ、「好きだが怖い」「嫌いだが手放せない」という複雑な現実を引き受けられるようになる。
+      </p>
+      <p>
+        矛盾を抱えられることは——弱さではなく、強さの一形態だ。
+      </p>
+    </div>
+
+    <h3>矛盾を「持つ」ための三つの問い</h3>
+
+    <div class="body">
+      <p>
+        ①「どちらの感情も、自分の中にある理由は何か」を問う。②「どちらかを否定することで、何を守ろうとしているか」を問う。③「この矛盾を抱えたまま、自分はどう動けるか」を問う。——答えを出すことが目的ではなく、問いとともにいることが目的だ。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="crack-line"></div>
+
+<!-- ══ SECTION 4：白 ══ -->
+<section class="s-white">
+  <div class="inner">
+    <div class="ch-marker">CHAPTER 04</div>
+    <h2>言葉にすると<br><span class="accent">嘘になる</span>理由</h2>
+
+    <div class="body">
+      <p>
+        感情を言葉にした瞬間、それはすでに感情の完全な写像ではなくなる。言語は線形だ——順番に、一つずつ、言葉を並べる。しかし感情は立体的で、複数の層が同時に存在する。この「立体を平面に押し潰す」プロセスで、必ず何かが失われる。
+      </p>
+      <p>
+        だから「本音を言った」はずなのに、言葉にした途端に「違う、こんなことを言いたかったんじゃない」という感覚になることがある。嘘をついたわけではない。しかし言葉は、感情の全体を捕まえきれなかっただけだ。
+      </p>
+    </div>
+
+    <!-- CONTRADICTION PAIRS -->
+    <div class="contra-pair">
+      <div class="contra-side left">
+        <div class="contra-label">言った言葉</div>
+        <div class="contra-text">「別に気にしていないよ」</div>
+        <div class="contra-sub">会話の流れで、そう答えた。嘘ではない。気にしていない部分は確かにある。</div>
+      </div>
+      <div class="contra-side right">
+        <div class="contra-label">言えなかった本音</div>
+        <div class="contra-text">「少し傷ついていた」</div>
+        <div class="contra-sub">でも傷ついていることも本当だ。どちらも本音だが、言葉にできたのは一方だけだった。</div>
+      </div>
+    </div>
+
+    <div class="contra-pair">
+      <div class="contra-side left">
+        <div class="contra-label">送ったメッセージ</div>
+        <div class="contra-text">「大丈夫、気にしないで」</div>
+        <div class="contra-sub">相手を安心させたかった。それも本当の気持ちだ。</div>
+      </div>
+      <div class="contra-side right">
+        <div class="contra-label">送れなかった言葉</div>
+        <div class="contra-text">「少し待っていてほしかった」</div>
+        <div class="contra-sub">でもこれも本音だ。言えなかったのは、弱さではなく——配慮と恐れの混合だ。</div>
+      </div>
+    </div>
+
+    <div class="contra-pair">
+      <div class="contra-side left">
+        <div class="contra-label">口に出した答え</div>
+        <div class="contra-text">「もう終わりにしたい」</div>
+        <div class="contra-sub">疲れ果てた瞬間に出た言葉。その瞬間の本音だ。</div>
+      </div>
+      <div class="contra-side right">
+        <div class="contra-label">言葉の裏にあったもの</div>
+        <div class="contra-text">「終わりにしたくない、でも今のままでは続けられない」</div>
+        <div class="contra-sub">本当はこれが全体だったが、言葉にするには複雑すぎた。</div>
+      </div>
+    </div>
+
+    <div class="pq" data-num="04">
+      <p class="pq-text">言葉にした感情は<em>本音の断面</em>に過ぎない。<br>切り取られた断面が、<em>全体</em>だと思ってはいけない。</p>
+    </div>
+
+    <div class="body">
+      <p>
+        このことを知っていると、人の言葉への接し方が変わる。誰かが「大丈夫」と言ったとき、それが嘘だとは断定できない。でも、それが全体でもないかもしれない——という余白を持つこと。その余白が、関係を少し優しくする。
+      </p>
+      <p>
+        自分自身に対しても同様だ。「本音を言えた」と満足した後に、別の感情が浮かび上がっても——それは矛盾ではなく、感情の地層の次の層が出てきただけだ。自分の感情を裏切者扱いしなくていい。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="crack-line"></div>
+
+<!-- ══ SECTION 5：黒 ══ -->
+<section class="s-black">
+  <div class="inner">
+    <div class="ch-marker">CHAPTER 05</div>
+    <h2>矛盾が<br><span class="accent">教えること</span></h2>
+
+    <div class="body">
+      <p>
+        矛盾した感情を「問題」として扱うのをやめると、それは「情報」になる。相反する二つの気持ちが同時にあるとき、そこには必ず「自分が本当に大切にしているもの」が隠れている。
+      </p>
+    </div>
+
+    <h3>矛盾は、価値観のX線写真だ</h3>
+
+    <div class="body">
+      <p>
+        「仕事をもっと休みたいが、仕事をやめたくはない」——この矛盾が示すのは、その仕事に対する愛着だ。完全に嫌いであれば矛盾は生じない。矛盾の存在は、「手放しきれない何かへの執着」の証明だ。
+      </p>
+      <p>
+        「誰かと深く関わりたいが、傷つきたくない」——この矛盾が示すのは、過去の傷と、それでも繋がりを求める人間の根本的な欲求だ。矛盾の形が、その人の歴史を語る。
+      </p>
+      <p>
+        自分が何に対して矛盾した感情を抱いているかを丁寧に観察することは、自分が何を大切にしているかを知る——最も誠実な方法かもしれない。
+      </p>
+    </div>
+
+    <div class="pq" data-num="05" style="border-color:rgba(232,82,26,0.2);">
+      <p class="pq-text" style="color:var(--white);">矛盾に気づくことは、<br>自分を<em>深く知ること</em>の入口だ。</p>
+    </div>
+
+    <h3>「どちらが本音か」より「なぜ両方あるのか」</h3>
+
+    <div class="body">
+      <p>
+        問いの立て方を変えることで、見えるものが変わる。「本音はAかBか」と問うのをやめて、「なぜ私はAもBも感じているのか」と問う。その問いへの答えが、自分の内側の地図を少しずつ明らかにしていく。
+      </p>
+      <p>
+        心が揺れていること、迷っていること、矛盾していること——それは弱さの証拠ではなく、自分の感情と正直に向き合っている証だ。揺れない人間は、感じていないか、感じているのに蓋をしているかのどちらかだ。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CLOSING ══ -->
+<div class="closing">
+  <div class="closing-label">EPILOGUE · おわりに</div>
+  <h2>本音は<br><em>矛盾</em>して、<br>いい。</h2>
+  <p class="closing-body">
+    「本当の気持ちはどっちなの」と聞かれるたびに、困ってしまう人がいる。<br>
+    その困惑は、あなたが曖昧なのではない。<br>
+    あなたの感情が、問いの枠よりも豊かだからだ。<br><br>
+    矛盾を抱えること。両方を手放さないこと。<br>
+    どちらかに決めずに、しばらくその間にいること。<br><br>
+    それが「本音と生きる」ということかもしれない。
+  </p>
+</div>
+
+</main>
+
+<footer>
+  <strong>本音は矛盾する</strong> &nbsp;·&nbsp; エッセイ · 感情論 · 心理 &nbsp;·&nbsp; 2026
+</footer>
+
+</body>
+</html>

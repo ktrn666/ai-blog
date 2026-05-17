@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DREAM vs CREAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Noto+Serif+JP:wght@300;400;700;900&family=IBM+Plex+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dream-bg:   #080b1a;
+  --dream-mid:  #111630;
+  --dream-acc:  #7c6aff;
+  --dream-glow: #a594ff;
+  --dream-text: #c4bcff;
+
+  --cream-bg:   #fdf6ec;
+  --cream-mid:  #f5e6c8;
+  --cream-acc:  #c4731a;
+  --cream-dark: #2d1a04;
+  --cream-text: #6b3d10;
+
+  --white: #fdf8f4;
+  --black: #060508;
+
+  --mono: 'IBM Plex Mono', monospace;
+  --display: 'Anton', sans-serif;
+  --serif: 'Fraunces', serif;
+  --jp: 'Noto Serif JP', serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { overflow-x:hidden; font-family: var(--jp); }
+
+/* ══ HERO: SPLIT WORLD ══ */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-half {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* DREAM side */
+.hero-dream {
+  background: var(--dream-bg);
+}
+.hero-dream::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 40% 40%, rgba(124,106,255,0.2), transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(124,106,255,0.08), transparent 50%);
+  pointer-events: none;
+}
+/* floating particles */
+.hero-dream::after {
+  content: '· · ·  ·  · · ·    ·  ·  · ·';
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  font-size: 8px;
+  color: rgba(124,106,255,0.3);
+  letter-spacing: 14px;
+  line-height: 3;
+  pointer-events: none;
+  word-break: break-all;
+  width: 90%;
+}
+
+/* CREAM side */
+.hero-cream {
+  background: var(--cream-bg);
+}
+.hero-cream::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 60% 40%, rgba(196,115,26,0.1), transparent 60%),
+    radial-gradient(ellipse 80% 30% at 20% 90%, rgba(245,230,200,0.8), transparent 60%);
+  pointer-events: none;
+}
+
+/* center slash */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -5%;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 3px;
+  height: 110%;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    var(--dream-acc) 20%,
+    var(--cream-acc) 80%,
+    transparent 100%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hero-word {
+  font-family: var(--display);
+  font-size: clamp(72px, 14vw, 180px);
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  animation: heroIn 1.2s ease forwards;
+}
+.hero-dream .hero-word {
+  color: var(--white);
+  animation-delay: 0.2s;
+  text-shadow: 0 0 80px rgba(124,106,255,0.5);
+}
+.hero-cream .hero-word {
+  color: var(--cream-dark);
+  animation-delay: 0.4s;
+}
+
+/* highlight the differing letters */
+.hero-word .diff {
+  position: relative;
+  display: inline-block;
+}
+.hero-dream .hero-word .diff {
+  color: var(--dream-acc);
+}
+.hero-cream .hero-word .diff {
+  color: var(--cream-acc);
+}
+
+.hero-jp {
+  font-family: var(--jp);
+  font-weight: 300;
+  font-size: clamp(13px, 2vw, 17px);
+  margin-top: 20px;
+  letter-spacing: 0.3em;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  animation: heroIn 1s ease forwards;
+}
+.hero-dream .hero-jp {
+  color: var(--dream-text);
+  animation-delay: 0.5s;
+}
+.hero-cream .hero-jp {
+  color: var(--cream-text);
+  animation-delay: 0.7s;
+}
+
+.hero-desc {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  margin-top: 32px;
+  line-height: 2.0;
+  position: relative;
+  z-index: 2;
+  max-width: 260px;
+  text-align: center;
+  opacity: 0;
+  animation: heroIn 1s ease forwards;
+}
+.hero-dream .hero-desc {
+  color: rgba(196,188,255,0.9);
+  animation-delay: 0.8s;
+}
+.hero-cream .hero-desc {
+  color: rgba(92,61,14,0.88);
+  animation-delay: 1s;
+}
+
+.hero-vs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  background: var(--black);
+  border: 2px solid var(--dream-acc);
+  color: var(--white);
+  font-family: var(--display);
+  font-size: clamp(14px, 2vw, 20px);
+  letter-spacing: 0.1em;
+  padding: 10px 16px;
+  pointer-events: none;
+  animation: heroIn 1s 1.2s ease forwards;
+  opacity: 0;
+}
+
+@keyframes heroIn {
+  from { opacity:0; transform: translateY(14px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ══ PHONETIC STRIP ══ */
+.phonetic-strip {
+  background: var(--black);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.phonetic-strip::before {
+  content: 'PHONETICS · 音声学 · PHONETICS · 音声学 · PHONETICS · 音声学 · ';
+  position: absolute;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.04);
+  white-space: nowrap;
+  animation: marquee 18s linear infinite;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.phonetic-item {
+  text-align: center;
+}
+.ph-word {
+  font-family: var(--display);
+  font-size: clamp(22px, 4vw, 42px);
+  letter-spacing: 0.05em;
+}
+.ph-ipa {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+  display: block;
+}
+.ph-note {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  margin-top: 4px;
+  display: block;
+  opacity: 0.75;
+}
+
+.ph-dream .ph-word { color: var(--dream-glow); }
+.ph-dream .ph-ipa  { color: var(--dream-text); }
+.ph-cream .ph-word { color: #e8c07a; }
+.ph-cream .ph-ipa  { color: rgba(245,230,200,0.9); }
+
+.ph-sep {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 28px;
+  color: rgba(255,255,255,0.15);
+}
+
+.ph-diff-box {
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 20px 28px;
+  text-align: center;
+}
+.ph-diff-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.3);
+  display: block;
+  margin-bottom: 10px;
+}
+.ph-diff-content {
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.6);
+}
+.ph-diff-content strong { color: var(--dream-acc); }
+.ph-diff-content em    { color: #e8c07a; font-style: normal; }
+
+/* ══ SECTIONS ══ */
+.section {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 88px 40px;
+  position: relative;
+}
+
+/* dream-tinted section */
+.dream-section {
+  background: var(--dream-bg);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.dream-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 20% 60%, rgba(124,106,255,0.1), transparent 60%);
+  pointer-events: none;
+}
+
+/* cream-tinted section */
+.cream-section {
+  background: var(--cream-bg);
+  color: var(--cream-dark);
+  position: relative;
+}
+
+/* alternating */
+.neutral-section {
+  background: #f9f6f2;
+  color: var(--black);
+}
+
+/* ══ CHAPTER ══ */
+.ch {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.ch-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  white-space: nowrap;
+}
+.dream-section .ch-num { color: var(--dream-acc); }
+.cream-section .ch-num { color: var(--cream-acc); }
+.neutral-section .ch-num { color: #888; }
+.ch-rule {
+  height: 1px;
+  flex: 1;
+  max-width: 80px;
+}
+.dream-section  .ch-rule { background: rgba(124,106,255,0.3); }
+.cream-section  .ch-rule { background: rgba(196,115,26,0.25); }
+.neutral-section .ch-rule { background: rgba(0,0,0,0.1); }
+
+/* ══ HEADINGS ══ */
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(30px, 5vw, 58px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 36px;
+  letter-spacing: -0.01em;
+}
+h2 em { font-style: italic; }
+.dream-section h2  { color: var(--white); }
+.dream-section h2 em { color: var(--dream-glow); }
+.cream-section h2  { color: var(--cream-dark); }
+.cream-section h2 em { color: var(--cream-acc); }
+.neutral-section h2 { color: var(--black); }
+.neutral-section h2 em { color: var(--dream-acc); }
+
+h3 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(17px, 2.5vw, 24px);
+  margin: 44px 0 16px;
+}
+.dream-section h3  { color: var(--dream-text); }
+.cream-section h3  { color: var(--cream-acc); }
+.neutral-section h3 { color: #333; }
+
+/* ══ BODY ══ */
+.body {
+  font-family: var(--jp);
+  font-weight: 400;
+  font-size: clamp(14px, 1.9vw, 15.5px);
+  line-height: 2.3;
+}
+.body p + p { margin-top: 1.5em; }
+.dream-section  .body { color: rgba(196,188,255,0.95); }
+.dream-section  .body strong { color: var(--white); font-weight: 700; }
+.cream-section  .body { color: rgba(45,26,4,0.9); }
+.cream-section  .body strong { color: var(--cream-dark); font-weight: 700; }
+.neutral-section .body { color: #3a3530; }
+.neutral-section .body strong { color: var(--black); font-weight: 700; }
+
+/* ══ PULL QUOTE ══ */
+.pq {
+  margin: 52px 0;
+  padding: 40px 44px;
+  position: relative;
+  text-align: center;
+}
+.dream-section .pq {
+  border: 1px solid rgba(124,106,255,0.2);
+  background: rgba(124,106,255,0.05);
+}
+.cream-section .pq {
+  border: 1px solid rgba(196,115,26,0.2);
+  background: rgba(196,115,26,0.04);
+}
+.neutral-section .pq {
+  background: var(--dream-bg);
+  color: var(--white);
+}
+.pq-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  margin-bottom: 18px;
+  display: block;
+}
+.dream-section  .pq-tag { color: var(--dream-acc); }
+.cream-section  .pq-tag { color: var(--cream-acc); }
+.neutral-section .pq-tag { color: var(--dream-acc); }
+.pq-text {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(18px, 3vw, 28px);
+  line-height: 1.65;
+  font-weight: 700;
+}
+.dream-section  .pq-text { color: var(--white); }
+.cream-section  .pq-text { color: var(--cream-dark); }
+.neutral-section .pq-text { color: var(--white); }
+.pq-text em {
+  font-style: normal;
+  border-bottom: 2px solid;
+}
+.dream-section  .pq-text em { color: var(--dream-glow); border-color: var(--dream-glow); }
+.cream-section  .pq-text em { color: var(--cream-acc);  border-color: var(--cream-acc); }
+.neutral-section .pq-text em { color: var(--dream-glow); border-color: var(--dream-glow); }
+
+/* ══ COMPARISON TABLE ══ */
+.cmp-table {
+  margin: 44px 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+.cmp-table th {
+  font-family: var(--display);
+  font-size: clamp(18px, 3vw, 28px);
+  letter-spacing: 0.05em;
+  padding: 20px 24px 16px;
+  text-align: center;
+  border-bottom: 2px solid;
+}
+.cmp-table th.dream-col {
+  background: var(--dream-bg);
+  color: var(--dream-glow);
+  border-color: var(--dream-acc);
+}
+.cmp-table th.cream-col {
+  background: var(--cream-mid);
+  color: var(--cream-acc);
+  border-color: var(--cream-acc);
+}
+.cmp-table th.label-col {
+  background: var(--black);
+  color: rgba(255,255,255,0.65);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  border-color: rgba(255,255,255,0.1);
+}
+.cmp-table td {
+  padding: 18px 24px;
+  font-size: 13.5px;
+  line-height: 1.75;
+  vertical-align: top;
+  border-bottom: 1px solid;
+}
+.cmp-table tr:last-child td { border-bottom: none; }
+.cmp-table td.dream-col {
+  background: rgba(8,11,26,0.6);
+  color: var(--dream-text);
+  border-color: rgba(124,106,255,0.1);
+}
+.cmp-table td.cream-col {
+  background: rgba(245,230,200,0.4);
+  color: var(--cream-text);
+  border-color: rgba(196,115,26,0.1);
+}
+.cmp-table td.label-col {
+  background: var(--black);
+  color: rgba(255,255,255,0.3);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-align: center;
+  min-width: 90px;
+  border-color: rgba(255,255,255,0.05);
+}
+
+/* ══ LETTER BREAKDOWN ══ */
+.letter-break {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  margin: 48px 0;
+  flex-wrap: wrap;
+}
+.lb-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.lb-glyph {
+  font-family: var(--display);
+  font-size: clamp(44px, 10vw, 100px);
+  line-height: 1;
+  padding: 0 4px;
+}
+.lb-shared .lb-glyph { color: rgba(255,255,255,0.25); }
+.lb-unique-d .lb-glyph { color: var(--dream-glow); }
+.lb-unique-c .lb-glyph { color: #e8c07a; }
+.lb-note {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  opacity: 0.5;
+}
+.lb-bracket {
+  font-family: var(--display);
+  font-size: clamp(32px, 7vw, 72px);
+  line-height: 1;
+  padding: 0 2px;
+  color: rgba(255,255,255,0.1);
+  align-self: center;
+}
+.lb-plus {
+  font-family: var(--serif);
+  font-size: 24px;
+  color: rgba(255,255,255,0.2);
+  padding: 0 8px;
+  align-self: center;
+  padding-bottom: 16px;
+}
+
+/* ══ WORD-IN-CONTEXT ══ */
+.context-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 44px 0;
+  background: rgba(0,0,0,0.1);
+}
+.ctx-card {
+  padding: 28px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.ctx-card::before {
+  content: attr(data-word);
+  position: absolute;
+  bottom: -16px;
+  right: -8px;
+  font-family: var(--display);
+  font-size: 60px;
+  opacity: 0.04;
+  line-height: 1;
+  pointer-events: none;
+}
+.ctx-dream { background: var(--dream-mid); }
+.ctx-cream { background: #fdf0da; }
+.ctx-phrase {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(15px, 2.2vw, 19px);
+  margin-bottom: 10px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+.ctx-dream .ctx-phrase { color: var(--white); }
+.ctx-cream .ctx-phrase { color: var(--cream-dark); }
+.ctx-meaning {
+  font-size: 12.5px;
+  line-height: 1.8;
+  font-weight: 400;
+}
+.ctx-dream .ctx-meaning { color: var(--dream-text); }
+.ctx-cream .ctx-meaning { color: var(--cream-text); }
+.ctx-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  padding: 2px 7px;
+  border: 1px solid;
+  margin-bottom: 12px;
+}
+.ctx-dream .ctx-tag { color: var(--dream-acc); border-color: var(--dream-acc); }
+.ctx-cream .ctx-tag { color: var(--cream-acc); border-color: var(--cream-acc); }
+
+/* ══ BIG DIVIDER TEXT ══ */
+.big-text-div {
+  background: var(--black);
+  padding: 60px 40px;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+.btd-inner {
+  font-family: var(--display);
+  font-size: clamp(48px, 11vw, 140px);
+  line-height: 1;
+  letter-spacing: 0.05em;
+  position: relative;
+  display: inline-block;
+}
+.btd-inner .d-part { color: var(--dream-glow); }
+.btd-inner .c-part { color: #e8c07a; }
+.btd-inner .shared-part { color: rgba(255,255,255,0.55); }
+.btd-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: rgba(255,255,255,0.45);
+  margin-top: 16px;
+}
+
+/* ══ ENDING ══ */
+.ending {
+  background: linear-gradient(135deg, var(--dream-bg) 0%, #0e0a1f 50%, var(--dream-bg) 100%);
+  padding: 120px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.ending::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 50% at 20% 50%, rgba(124,106,255,0.1), transparent),
+    radial-gradient(ellipse 50% 50% at 80% 50%, rgba(232,192,122,0.07), transparent);
+  pointer-events: none;
+}
+.ending-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.45em;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+.ending-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(32px, 6vw, 72px);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--white);
+  position: relative;
+  z-index: 1;
+}
+.ending-title .d { color: var(--dream-glow); font-style: normal; }
+.ending-title .c { color: #e8c07a; font-style: normal; }
+.ending-rule {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, var(--dream-acc), #e8c07a);
+  margin: 40px auto;
+  position: relative;
+  z-index: 1;
+}
+.ending-body {
+  font-family: var(--jp);
+  font-weight: 300;
+  font-size: clamp(13px, 1.9vw, 16px);
+  line-height: 2.3;
+  color: rgba(196,188,255,0.6);
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+footer {
+  background: #030208;
+  padding: 28px 40px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.15);
+  position: relative;
+  z-index: 1;
+}
+footer strong { color: var(--dream-acc); font-weight: 400; }
+footer em { color: #e8c07a; font-style: normal; }
+
+@media(max-width:640px){
+  .hero { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+  .hero::after { display:none; }
+  .hero-half { padding: 48px 28px; }
+  .context-grid { grid-template-columns: 1fr; }
+  .cmp-table { font-size: 12px; }
+  .cmp-table td, .cmp-table th { padding: 12px 14px; }
+  .section { padding: 64px 24px; }
+  .letter-break { gap: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="hero-half hero-dream">
+    <div class="hero-word"><span class="diff">D</span>REAM</div>
+    <div class="hero-jp">夢・夢想・理想</div>
+    <div class="hero-desc">
+      /driːm/<br>
+      形のない未来<br>
+      眠りの中の映像<br>
+      届かないかもしれないもの
+    </div>
+  </div>
+
+  <div class="hero-vs">VS</div>
+
+  <div class="hero-half hero-cream">
+    <div class="hero-word"><span class="diff">CR</span>EAM</div>
+    <div class="hero-jp">クリーム・精髄・最上</div>
+    <div class="hero-desc">
+      /kriːm/<br>
+      手で触れられるもの<br>
+      牛乳の最上層<br>
+      今ここに在るもの
+    </div>
+  </div>
+</header>
+
+<!-- ══ PHONETIC STRIP ══ -->
+<div class="phonetic-strip">
+  <div class="phonetic-item ph-dream">
+    <div class="ph-word">DREAM</div>
+    <span class="ph-ipa">/d r iː m/</span>
+    <span class="ph-note">有声破裂音 → 流音 → 長母音 → 鼻音</span>
+  </div>
+
+  <span class="ph-sep">≠</span>
+
+  <div class="ph-diff-box">
+    <span class="ph-diff-label">THE DIFFERENCE · 違いはここだけ</span>
+    <div class="ph-diff-content">
+      <strong>/d/</strong> → <em>/kr/</em><br>
+      <br>
+      一文字 vs 二文字<br>
+      一音 vs 子音クラスター<br>
+      単純 vs 複合
+    </div>
+  </div>
+
+  <span class="ph-sep">≠</span>
+
+  <div class="phonetic-item ph-cream">
+    <div class="ph-word">CREAM</div>
+    <span class="ph-ipa">/k r iː m/</span>
+    <span class="ph-note">無声破裂音＋流音 → 長母音 → 鼻音</span>
+  </div>
+</div>
+
+<main>
+
+<!-- ══ SECTION 1: 音の話 ══ -->
+<section class="dream-section">
+  <div class="section">
+    <div class="ch">
+      <span class="ch-num">CHAPTER 01</span>
+      <div class="ch-rule"></div>
+    </div>
+
+    <h2>たった<em>1〜2音</em>の<br>宇宙的な差</h2>
+
+    <!-- LETTER BREAKDOWN -->
+    <div class="letter-break">
+      <div class="lb-char lb-unique-d">
+        <div class="lb-glyph">D</div>
+        <span class="lb-note">DREAM only</span>
+      </div>
+      <div class="lb-char lb-unique-c">
+        <div class="lb-glyph">C</div>
+        <span class="lb-note">CREAM only</span>
+      </div>
+      <div class="lb-char lb-unique-c">
+        <div class="lb-glyph">R</div>
+        <span class="lb-note">CREAM only</span>
+      </div>
+      <span class="lb-plus">|</span>
+      <div class="lb-char lb-shared">
+        <div class="lb-glyph">E</div>
+        <span class="lb-note">shared</span>
+      </div>
+      <div class="lb-char lb-shared">
+        <div class="lb-glyph">A</div>
+        <span class="lb-note">shared</span>
+      </div>
+      <div class="lb-char lb-shared">
+        <div class="lb-glyph">M</div>
+        <span class="lb-note">shared</span>
+      </div>
+    </div>
+
+    <div class="body">
+      <p>
+        DREAMとCREAMは、見た目のうえでは「-REAM」という4文字を完全に共有する。違いは先頭だけだ。DREAMは「D」一文字で始まり、CREAMは「CR」という子音クラスターで始まる。音声学の世界では、この差を<strong>「頭子音（onset）の違い」</strong>と呼ぶ。
+      </p>
+      <p>
+        発音してみると、その差は口の形から始まる。<strong>D</strong>は舌先を上の歯茎につけて一瞬息を止め、それを爆発させる「有声歯茎破裂音」だ。<strong>CR</strong>は喉の奥で「K」の音を作りながら、同時に「R」の滑らかな流れを準備する——二つの動作を一瞬にこなす「子音クラスター」だ。
+      </p>
+      <p>
+        ただそれだけの違いで、「夢」と「クリーム」という、まったく別の宇宙が生まれる。言語とはそういうものだ——わずかな音の差が、まったく異なる意味の地平を開く。
+      </p>
+    </div>
+
+    <div class="pq">
+      <span class="pq-tag">PHONETICS · 音声学</span>
+      <p class="pq-text">「D」と「CR」のあいだには、<br><em>夢と現実ほどの距離</em>がある。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BIG TEXT ══ -->
+<div class="big-text-div">
+  <div class="btd-inner">
+    <span class="d-part">D</span><span class="shared-part">REAM</span>
+    <span style="color:rgba(255,255,255,0.08);padding:0 12px;">·</span>
+    <span class="c-part">CR</span><span class="shared-part">EAM</span>
+  </div>
+  <div class="btd-sub">SAME ENDING · DIFFERENT BEGINNING · 終わりは同じ、始まりが違う</div>
+</div>
+
+<!-- ══ SECTION 2: 意味の話 ══ -->
+<section class="cream-section">
+  <div class="section">
+    <div class="ch">
+      <span class="ch-num">CHAPTER 02</span>
+      <div class="ch-rule"></div>
+    </div>
+
+    <h2>意味の世界——<br><em>形のないもの</em>と<br><em>形のあるもの</em></h2>
+
+    <div class="body">
+      <p>
+        DREAMは基本的に「形を持たないもの」だ。睡眠中に見る夢は、目が覚めると同時に霧のように消える。野心としての「夢」も、未来という見えない場所に置かれている。<strong>DREAMは本質的に「今ここにない」ものを指す。</strong>
+      </p>
+      <p>
+        CREAMは逆だ。乳脂肪が牛乳の上層に浮かんだもの——これは今ここに実在する、触れられる、舐められる物体だ。スキンケアのクリームも、菓子に添えるホイップクリームも、すべて「今この瞬間、手の届く場所にある」。<strong>CREAMは本質的に「今ここに在る」ものを指す。</strong>
+      </p>
+    </div>
+
+    <!-- COMPARISON TABLE -->
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th class="label-col">AXIS</th>
+          <th class="dream-col">DREAM</th>
+          <th class="cream-col">CREAM</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">時制</td>
+          <td class="dream-col">未来・過去（眠りの中）</td>
+          <td class="cream-col">現在・今この瞬間</td>
+        </tr>
+        <tr>
+          <td class="label-col">感触</td>
+          <td class="dream-col">無形・霧のような・消える</td>
+          <td class="cream-col">有形・なめらか・とどまる</td>
+        </tr>
+        <tr>
+          <td class="label-col">感覚器官</td>
+          <td class="dream-col">主に視覚（幻視）</td>
+          <td class="cream-col">触覚・味覚・嗅覚</td>
+        </tr>
+        <tr>
+          <td class="label-col">温度感</td>
+          <td class="dream-col">涼しい・青・深夜</td>
+          <td class="cream-col">温かい・黄・午後</td>
+        </tr>
+        <tr>
+          <td class="label-col">比喩の方向</td>
+          <td class="dream-col">理想・野心・希望・幻想</td>
+          <td class="cream-col">最上・精髄・栄光・美しさ</td>
+        </tr>
+        <tr>
+          <td class="label-col">失われ方</td>
+          <td class="dream-col">目が覚めると消える</td>
+          <td class="cream-col">使いきると無くなる</td>
+        </tr>
+        <tr>
+          <td class="label-col">動詞として</td>
+          <td class="dream-col">to dream = 夢見る・理想を持つ</td>
+          <td class="cream-col">to cream = すりつぶす・上澄みを取る</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pq">
+      <span class="pq-tag">MEANING · 意味</span>
+      <p class="pq-text">DREAMは<em>まだそこにない</em>もの。<br>CREAMは<em>すでにそこにある</em>もの。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 3: 慣用表現 ══ -->
+<section class="neutral-section">
+  <div class="section">
+    <div class="ch">
+      <span class="ch-num">CHAPTER 03</span>
+      <div class="ch-rule"></div>
+    </div>
+
+    <h2>慣用句で見る<br><em>哲学の違い</em></h2>
+
+    <div class="body">
+      <p>
+        ある言語がどのような慣用句を作るかは、その言語話者がある概念をどのように価値づけているかを映す。DREAMとCREAMは、英語圏でそれぞれ独特の慣用的表現を持ち、その哲学は面白い対比をなしている。
+      </p>
+    </div>
+
+    <div class="context-grid">
+      <div class="ctx-card ctx-dream" data-word="DREAM">
+        <span class="ctx-tag">DREAM · 慣用句</span>
+        <div class="ctx-phrase">"Dream team"</div>
+        <div class="ctx-meaning">理想のチーム。現実には存在しないかもしれない最良の組み合わせ。「夢の」という形容は、現実を超えた理想を指す。</div>
+      </div>
+      <div class="ctx-card ctx-cream" data-word="CREAM">
+        <span class="ctx-tag">CREAM · 慣用句</span>
+        <div class="ctx-phrase">"Cream of the crop"</div>
+        <div class="ctx-meaning">最良の人や物。農業的な語源——収穫物の中の最上部。CREAMは「すでに存在するものの最良」を意味する。</div>
+      </div>
+      <div class="ctx-card ctx-dream" data-word="DREAM">
+        <span class="ctx-tag">DREAM · 慣用句</span>
+        <div class="ctx-phrase">"Dream big"</div>
+        <div class="ctx-meaning">大きく夢見よ。現在の自分の限界を超えた未来を想像することへの奨励。DREAMは「越境」の動詞だ。</div>
+      </div>
+      <div class="ctx-card ctx-cream" data-word="CREAM">
+        <span class="ctx-tag">CREAM · 慣用句</span>
+        <div class="ctx-phrase">"Cream rises to the top"</div>
+        <div class="ctx-meaning">本物の実力は自然と上に浮かぶ。CREAMは浮力の比喩——努力ではなく、本質的な質が自然に認められるという思想。</div>
+      </div>
+      <div class="ctx-card ctx-dream" data-word="DREAM">
+        <span class="ctx-tag">DREAM · 慣用句</span>
+        <div class="ctx-phrase">"Works like a dream"</div>
+        <div class="ctx-meaning">夢のようにうまく機能する。皮肉なことに、「夢」は「現実離れした完璧さ」の代名詞として使われる。</div>
+      </div>
+      <div class="ctx-card ctx-cream" data-word="CREAM">
+        <span class="ctx-tag">CREAM · 慣用句</span>
+        <div class="ctx-phrase">"Cream puff"</div>
+        <div class="ctx-meaning">柔らかく、力のない人。CREAMの柔らかさ・なめらかさから、「抵抗のなさ」「弱さ」を指す俗語になった例。</div>
+      </div>
+    </div>
+
+    <div class="pq">
+      <span class="pq-tag">IDIOM · 慣用句の哲学</span>
+      <p class="pq-text">DREAMは「ない」から始まり、<br>CREAMは「ある」から始まる——<br><em>英語はそう思っている。</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 4: adjective ══ -->
+<section class="dream-section">
+  <div class="section">
+    <div class="ch">
+      <span class="ch-num">CHAPTER 04</span>
+      <div class="ch-rule"></div>
+    </div>
+
+    <h2><em>Dreamy</em>と<em>Creamy</em>——<br>形容詞の感触</h2>
+
+    <div class="body">
+      <p>
+        DREAMとCREAMに「-Y」をつけると、それぞれ「dreamy」と「creamy」という形容詞になる。この二つは、同じ語尾を持ちながら、まったく異なる感触を運ぶ。
+      </p>
+    </div>
+
+    <h3>Dreamy——夢うつつの感覚</h3>
+    <div class="body">
+      <p>
+        「dreamy」は二つの意味を持つ。一つは「夢のような・うっとりするような」——現実から浮き上がった、焦点の合っていない美しさを指す。水の中で揺れる光のような、確かめようとすると消えてしまうような感覚。もう一つは俗語的な「魅力的な（人物）」——「He's so dreamy」は「彼は理想的に魅力的だ」を意味する。どちらの用法も、現実から少し遠ざかった場所にある美しさを語っている。
+      </p>
+    </div>
+
+    <h3>Creamy——なめらかな存在感</h3>
+    <div class="body">
+      <p>
+        「creamy」は主に「なめらかで濃厚な質感・色合い」を表す。料理の文脈では「creamy pasta（クリーミーなパスタ）」、色の文脈では「creamy white（クリーム色の白）」——どちらも触覚的・視覚的な豊かさを示す。「dreamy」が時間軸上の揺らぎを持つのに対し、「creamy」は空間的・物質的な充実感を持つ。手で触れたとき、指が沈み込むような、そこに確かに在るものの充足感だ。
+      </p>
+    </div>
+
+    <div class="pq">
+      <span class="pq-tag">ADJECTIVE · 形容詞</span>
+      <p class="pq-text"><em>Dreamy</em>は焦点が合わない美しさ。<br><em>Creamy</em>は指に残る美しさ。</p>
+    </div>
+
+    <h3>日本語ではどう訳されるか</h3>
+    <div class="body">
+      <p>
+        日本語の翻訳も、この差を面白く映す。「dreamy」には「夢のような」「うっとりする」「幻想的な」という言葉が当てられる——どれも現実から一歩引いた感覚を持つ。「creamy」には「まろやかな」「コクのある」「なめらかな」——どれも口に入れたときの感触に近い言葉だ。日本語は「dreamy」を視覚で、「creamy」を口の感覚で受け取っている。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 5: 哲学 ══ -->
+<section class="cream-section">
+  <div class="section">
+    <div class="ch">
+      <span class="ch-num">CHAPTER 05</span>
+      <div class="ch-rule"></div>
+    </div>
+
+    <h2>あなたは<em>DREAM派</em>か<br><em>CREAM派</em>か</h2>
+
+    <div class="body">
+      <p>
+        DREAMとCREAMの違いを哲学的に押し広げると、それは二つの人生哲学の違いになる。
+      </p>
+      <p>
+        <strong>DREAM哲学</strong>は、「今はまだ手に入っていないが、めざす価値のある理想」を人生の軸に置く。夢を持つことが人を動かす原動力になる——この考えは、現代の自己啓発から古代の詩まで貫く普遍的な思想だ。リスクを負い、未来を信じ、「いつかは」という言葉を燃料にして生きる人たちがいる。
+      </p>
+      <p>
+        <strong>CREAM哲学</strong>は逆に、「今すでに在る最良のものを見極め、それを最大限に活かす」ことを重視する。完璧な未来を夢見るより、今手の中にあるものの中からベストを引き出す——これも同様に強力な哲学だ。「cream of the crop」の発想は、選別と洗練にある。
+      </p>
+    </div>
+
+    <div class="pq">
+      <span class="pq-tag">PHILOSOPHY · 哲学</span>
+      <p class="pq-text">DREAMは「なる」ための言葉。<br>CREAMは「ある」ための言葉。<br>人生は<em>その往復</em>で動いている。</p>
+    </div>
+
+    <div class="body">
+      <p>
+        最も豊かな生き方は、おそらくこの二つを行き来することだ。今在るものの最良（CREAM）を引き出しながら、まだ見ぬ可能性（DREAM）を諦めない。その往復こそが、人生という動的なバランスではないか。
+      </p>
+      <p>
+        そう考えると、DREAMとCREAMが「-REAM」という部分を共有していることは、偶然ではないように思えてくる。どちらの生き方にも、共通の「核（-REAM）」がある——それは、<strong>「より良いものへの志向」</strong>だ。違いは、それを未来に求めるか、現在に求めるかだけだ。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <div class="ending-eyebrow">CONCLUSION · おわりに</div>
+  <h2 class="ending-title">
+    <span class="d">D</span>REAM で見て、<br>
+    <span class="c">CR</span>EAM で生きる。
+  </h2>
+  <div class="ending-rule"></div>
+  <p class="ending-body">
+    たった1〜2音の差が、夢と現実を分ける。<br>
+    形のない夜の映像と、スプーンで掬える白い豊かさ。<br>
+    どちらも人間が必要とするものだ。<br><br>
+    DREAMなき人生は、方向を失う。<br>
+    CREAMなき人生は、今を生きられない。<br><br>
+    あの小さな音の差が教えるのは——<br>
+    言葉とは、どれだけ近くても、まったく違う世界へ連れていくということだ。
+  </p>
+</div>
+
+</main>
+
+<footer>
+  <strong>DREAM</strong> vs <em>CREAM</em> &nbsp;·&nbsp; 言語・意味・哲学ブログ &nbsp;·&nbsp; 2026
+</footer>
+</body>
+</html>

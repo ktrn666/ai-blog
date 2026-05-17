@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>コマの魔法 — 漫画という宇宙を読む</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Shippori+Mincho:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0c09;
+    --paper: #f5f0e8;
+    --accent: #c0392b;
+    --accent2: #e67e22;
+    --screen: #2c3e50;
+    --halftone: rgba(0,0,0,0.04);
+    --gold: #b8860b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Halftone background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, #00000008 1px, transparent 1px);
+    background-size: 14px 14px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  header::after {
+    content: '漫';
+    position: absolute;
+    right: -0.05em;
+    bottom: -0.2em;
+    font-size: clamp(200px, 40vw, 500px);
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    pointer-events: none;
+    font-family: 'Noto Serif JP';
+  }
+
+  .header-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  .issue-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .issue-label::before {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(38px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    color: var(--paper);
+    text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+    display: block;
+  }
+
+  .subtitle {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(14px, 2vw, 18px);
+    color: rgba(245,240,232,0.93);
+    max-width: 520px;
+    line-height: 1.9;
+    border-left: 3px solid var(--accent);
+    padding-left: 20px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+  }
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    margin: 10px auto 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── SECTION BASE ── */
+  .section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    position: relative;
+  }
+
+  .section + .section {
+    border-top: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* ── CHAPTER HEADER ── */
+  .chapter-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .chapter-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 900;
+    line-height: 1.2;
+    position: relative;
+  }
+
+  h2::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 14px;
+  }
+
+  /* ── BODY TEXT ── */
+  .body-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(15px, 2.2vw, 17px);
+    line-height: 2.0;
+    color: #2a2520;
+  }
+
+  .body-text p + p {
+    margin-top: 1.5em;
+  }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    margin: 48px 0;
+    padding: 32px 40px;
+    border-left: 6px solid var(--accent);
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pull-quote::before {
+    content: '「';
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-size: 120px;
+    color: rgba(255,255,255,0.05);
+    font-family: 'Noto Serif JP';
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .pull-quote p {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 700;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pull-quote cite {
+    display: block;
+    margin-top: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  /* ── MANGA PANEL GRID ── */
+  .panel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    margin: 48px 0;
+    background: var(--ink);
+    border: 3px solid var(--ink);
+  }
+
+  .panel {
+    background: var(--paper);
+    padding: 24px 20px;
+    position: relative;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .panel:first-child { grid-column: span 2; }
+  .panel:nth-child(4) { grid-column: span 3; background: var(--ink); color: var(--paper); }
+
+  .panel-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .panel-content {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .panel:nth-child(4) .panel-content {
+    font-size: 18px;
+  }
+
+  .panel-bg-text {
+    position: absolute;
+    right: -10px;
+    bottom: -15px;
+    font-size: 70px;
+    font-weight: 900;
+    opacity: 0.06;
+    line-height: 1;
+    font-family: 'Noto Serif JP';
+    pointer-events: none;
+  }
+
+  /* ── WIDE BAND ── */
+  .wide-band {
+    background: var(--screen);
+    color: var(--paper);
+    padding: 64px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wide-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.015) 0px,
+      rgba(255,255,255,0.015) 1px,
+      transparent 1px,
+      transparent 16px
+    );
+  }
+
+  .wide-band .section {
+    border-top: none;
+  }
+
+  .wide-band h2::after {
+    background: var(--accent2);
+  }
+
+  .wide-band .body-text {
+    color: rgba(245,240,232,0.95);
+  }
+
+  .wide-band .pull-quote {
+    border-left-color: var(--accent2);
+    background: rgba(0,0,0,0.3);
+  }
+
+  .wide-band .pull-quote cite { color: var(--accent2); }
+
+  /* ── WORKS LIST ── */
+  .works-list {
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .work-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  .wide-band .work-item {
+    border-bottom-color: rgba(255,255,255,0.1);
+  }
+
+  .work-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .work-title {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .work-author {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    opacity: 0.8;
+  }
+
+  .wide-band .work-author { color: var(--accent2); }
+
+  .work-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    padding: 4px 10px;
+    border: 1px solid currentColor;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  /* ── ACCENT STRIPE ── */
+  .accent-stripe {
+    background: var(--accent);
+    color: var(--paper);
+    padding: 48px 0;
+  }
+
+  .accent-stripe .section { border-top: none; }
+
+  .accent-stripe h2::after { background: var(--paper); }
+
+  .accent-stripe .body-text { color: rgba(245,240,232,0.9); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(245,240,232,0.4);
+    padding: 48px 40px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    line-height: 2;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer strong {
+    color: var(--accent);
+    font-weight: normal;
+  }
+
+  /* ── SIDEBAR MARKER ── */
+  .section-marker {
+    position: absolute;
+    left: -30px;
+    top: 80px;
+    writing-mode: vertical-rl;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: rgba(0,0,0,0.15);
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header-inner > * {
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+  }
+  .header-inner .issue-label { animation-delay: 0.1s; }
+  .header-inner h1 { animation-delay: 0.3s; }
+  .header-inner .subtitle { animation-delay: 0.55s; }
+
+  /* ── KOMA DIAGRAM ── */
+  .koma-diagram {
+    display: grid;
+    grid-template-areas:
+      "a a b"
+      "c d d"
+      "e e e";
+    gap: 4px;
+    margin: 40px 0;
+    background: var(--ink);
+    border: 4px solid var(--ink);
+    aspect-ratio: 4/3;
+  }
+
+  .koma-cell {
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px;
+    line-height: 1.5;
+  }
+
+  .koma-cell:nth-child(1) { grid-area: a; }
+  .koma-cell:nth-child(2) { grid-area: b; }
+  .koma-cell:nth-child(3) { grid-area: c; }
+  .koma-cell:nth-child(4) { grid-area: d; }
+  .koma-cell:nth-child(5) { grid-area: e; background: var(--accent); color: var(--paper); font-size: 14px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .panel-grid { grid-template-columns: 1fr 1fr; }
+    .panel:first-child { grid-column: span 2; }
+    .panel:nth-child(4) { grid-column: span 2; }
+    .work-item { grid-template-columns: 40px 1fr; }
+    .work-tag { display: none; }
+    .section-marker { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <div class="issue-label">コマの魔法 &nbsp;|&nbsp; Vol.01 &nbsp;|&nbsp; 2026年5月号</div>
+    <h1>
+      コマの向こうに<br>
+      <em>広がる宇宙</em>
+    </h1>
+    <p class="subtitle">
+      漫画はなぜこれほど人を引きつけるのか。<br>
+      絵と文字のあいだに潜む「余白の言語」を、<br>
+      読者と作者の視点から読み解く。
+    </p>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<main>
+
+<!-- ══ CHAPTER 1 ══ -->
+<div class="section">
+  <span class="section-marker">Chapter One</span>
+  <div class="chapter-header">
+    <span class="chapter-num">Ch.01</span>
+    <h2>コマとコマのあいだ——<br>「間（ま）」という名の魔法</h2>
+  </div>
+
+  <div class="body-text">
+    <p>
+      漫画を読むとき、私たちは無意識のうちに「補完」という作業を行っている。ページの上に描かれた静止画と静止画のあいだ——コマとコマのあいだの白い空白——を、脳が自動的につなぎ合わせ、動きを、感情を、物語を生み出す。この現象を漫画研究家のスコット・マクラウドは「クロージャー（closure）」と呼んだ。
+    </p>
+    <p>
+      たとえば、斧を振り上げる人物のコマと、恐怖に歪む顔のコマ。その2枚のあいだに「衝撃」や「暴力」は描かれていない。しかし読者の脳は一瞬で残虐なシーンを"補完"してしまう。映画なら否応なしに見せられる場面を、漫画はあえて描かないことで読者の想像力に委ねる。これが漫画という媒体の最大の秘密だ。
+    </p>
+    <p>
+      日本語に「間（ま）」という言葉がある。時間的・空間的な「あいだ」を指すこの言葉は、漫画のコマ割りにそのまま当てはまる。能や歌舞伎でいう「間」——沈黙や休止が持つ表現力——が、漫画では白い余白として機能する。描かれていないものが、描かれているものと同等、あるいはそれ以上の力を持つ。
+    </p>
+  </div>
+
+  <div class="pull-quote">
+    <p>描かれていないものが、描かれているものより<br>強く語りかけてくることがある。</p>
+    <cite>— 間（ま）の美学</cite>
+  </div>
+
+  <div class="body-text">
+    <p>
+      浦沢直樹の『MONSTER』を思い出してほしい。緊張の頂点に達した場面で、作者はしばしば無言のコマを数コマ続ける。登場人物の表情だけが映る。台詞も効果音もない。その沈黙が、読者の心臓を鷲掴みにする。これは「描かない」という高度な技術であり、「間」の哲学そのものだ。
+    </p>
+  </div>
+</div>
+
+<!-- ══ PANEL GRID ══ -->
+<div style="max-width:860px;margin:0 auto;padding:0 40px;">
+  <div class="panel-grid">
+    <div class="panel">
+      <div class="panel-label">TECHNIQUE 01</div>
+      <div class="panel-content">コマの大きさが<br>時間の流れを操る</div>
+      <div class="panel-bg-text">時</div>
+    </div>
+    <div class="panel">
+      <div class="panel-label">TECHNIQUE 02</div>
+      <div class="panel-content">見開きで<br>世界が爆発する</div>
+      <div class="panel-bg-text">爆</div>
+    </div>
+    <div class="panel">
+      <div class="panel-label">TECHNIQUE 03</div>
+      <div class="panel-content">フキダシの形が<br>声の質感になる</div>
+      <div class="panel-bg-text">声</div>
+    </div>
+    <div class="panel">
+      <div class="panel-label">SUMMARY</div>
+      <div class="panel-content">漫画の文法は、映画でも小説でもない——紙と想像力が共鳴する第三の言語だ。</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ CHAPTER 2 ══ -->
+<div class="section">
+  <span class="section-marker">Chapter Two</span>
+  <div class="chapter-header">
+    <span class="chapter-num">Ch.02</span>
+    <h2>線の哲学——<br>一本の黒い線が語ること</h2>
+  </div>
+
+  <div class="body-text">
+    <p>
+      漫画家・松本大洋はかつてインタビューでこう語った。「線は嘘をつかない」。どれだけ複雑なデジタル技術が発達しても、手で引いた一本の線には、その瞬間の感情と体温が宿る。震えた線は不安を語り、力強い線は確信を語り、細く消えいりそうな線は繊細さを語る。
+    </p>
+    <p>
+      荒木飛呂彦の線は肉体の力を宿し、読むだけで筋肉の収縮が伝わってくる。一方、志村貴子の線は羽毛のように軽く、登場人物の内省的な世界を包む。同じ「漫画の線」でも、作家によってその文法はまったく異なる。
+    </p>
+    <p>
+      デジタル作画が主流となった現代、線の均一さは極限まで洗練された。だがその反動として、あえて「揺らぎ」を線に持ち込む作家も増えている。手塚治虫が確立した「映画的な絵作り」から始まり、70年以上で日本の漫画の線は無数の進化を遂げてきた。
+    </p>
+  </div>
+
+  <!-- KOMA DIAGRAM -->
+  <div class="koma-diagram">
+    <div class="koma-cell">遠景——世界を示す広いコマ</div>
+    <div class="koma-cell">緊張する指先のアップ</div>
+    <div class="koma-cell">沈黙の表情</div>
+    <div class="koma-cell">動きが爆発する横長コマ</div>
+    <div class="koma-cell">一瞬が永遠になる見開き——読者は息を飲む</div>
+  </div>
+
+  <div class="body-text">
+    <p>
+      コマ割り自体も「線の芸術」だ。縦のコマは緊張と落下感を生み、横のコマは広がりと時間の流れを生む。斜めに切られたコマは不安定さと動感を加速させる。岡崎京子は普通のコマの中に突然「白ぬき」のコマを挟み込み、物語の断絶と喪失感を視覚化した。コマの形そのものが語る——これは漫画だけが持つ特権だ。
+    </p>
+  </div>
+</div>
+
+<!-- ══ WIDE BAND — CHAPTER 3 ══ -->
+<div class="wide-band">
+  <div class="section">
+    <span class="section-marker" style="color:rgba(255,255,255,0.15)">Chapter Three</span>
+    <div class="chapter-header">
+      <span class="chapter-num" style="color:var(--accent2)">Ch.03</span>
+      <h2 style="color:var(--paper)">ジャンルを超えた傑作たち——<br>私が選ぶ5つの漫画宇宙</h2>
+    </div>
+
+    <div class="body-text">
+      <p>
+        漫画には「ジャンル」という便利な棚がある。少年漫画、少女漫画、青年漫画、SF、ホラー……。しかし本当に偉大な漫画は、常にそのジャンルの棚を崩して床に散乱させる。あらゆる境界を超えて読者の心の奥まで届く作品が、文化の次の扉を開く。
+      </p>
+    </div>
+
+    <div class="works-list">
+      <div class="work-item">
+        <div class="work-num">01</div>
+        <div>
+          <div class="work-title">ベルセルク / 三浦建太郎</div>
+          <div class="work-author">BERSERK · KENTARO MIURA</div>
+          <div class="body-text" style="font-size:13px;margin-top:6px;color:rgba(245,240,232,0.65)">描き込みの密度が「絶望」の重さと等価になった稀有な作品。一コマに込められた情報量と感情量は漫画史上最高峰。</div>
+        </div>
+        <div class="work-tag">DARK FANTASY</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">02</div>
+        <div>
+          <div class="work-title">ピンポン / 松本大洋</div>
+          <div class="work-author">PING PONG · TAIYO MATSUMOTO</div>
+          <div class="body-text" style="font-size:13px;margin-top:6px;color:rgba(245,240,232,0.65)">「才能とは何か」を問い続ける青春の記録。荒削りな線が、登場人物の成長とリンクして変化していく奇跡。</div>
+        </div>
+        <div class="work-tag">SPORTS / HUMAN</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">03</div>
+        <div>
+          <div class="work-title">AKIRA / 大友克洋</div>
+          <div class="work-author">AKIRA · KATSUHIRO OTOMO</div>
+          <div class="body-text" style="font-size:13px;margin-top:6px;color:rgba(245,240,232,0.65)">圧倒的なパースと群衆描写で都市の崩壊を描いた。この作品なくして世界のSF漫画は語れない。</div>
+        </div>
+        <div class="work-tag">SCI-FI</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">04</div>
+        <div>
+          <div class="work-title">ヒカルの碁 / 原作：ほったゆみ 作画：小畑健</div>
+          <div class="work-author">HIKARU NO GO · HOTTA & OBATA</div>
+          <div class="body-text" style="font-size:13px;margin-top:6px;color:rgba(245,240,232,0.65)">碁というニッチなテーマを世界的ブームに変えた奇跡。「才能に選ばれる者と選ばれない者」の哲学が底流する。</div>
+        </div>
+        <div class="work-tag">GAME / GROWTH</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">05</div>
+        <div>
+          <div class="work-title">バガボンド / 井上雄彦</div>
+          <div class="work-author">VAGABOND · INOUE TAKEHIKO</div>
+          <div class="body-text" style="font-size:13px;margin-top:6px;color:rgba(245,240,232,0.65)">毛筆のタッチで「命の重さ」を描く。剣と禅と自然——三つが交差する場所で、漫画は絵画になる。</div>
+        </div>
+        <div class="work-tag">HISTORICAL</div>
+      </div>
+    </div>
+
+    <div class="pull-quote" style="border-left-color:var(--accent2)">
+      <p>偉大な漫画は、読み終えた後も<br>読者の体の中で生き続ける。</p>
+      <cite style="color:var(--accent2)">— 作品が残すもの</cite>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ CHAPTER 4 ══ -->
+<div class="section">
+  <span class="section-marker">Chapter Four</span>
+  <div class="chapter-header">
+    <span class="chapter-num">Ch.04</span>
+    <h2>漫画と感情——<br>なぜ私たちは紙の上で泣くのか</h2>
+  </div>
+
+  <div class="body-text">
+    <p>
+      「なぜ漫画を読んで泣けるのか」——この問いに答えることは、人間の感情システムの謎を解くことに等しい。実在しない人物が、描かれた線の中で、補完された物語のなかで死んでいく。それなのに、私たちは本物の涙を流す。
+    </p>
+    <p>
+      研究者たちは「フィクションのパラドックス」と呼ぶ。虚構だと知りながら、感情システムは現実と同様に反応する。漫画においてこれは特に強力に作用する。なぜなら読者は自分のペースで読み進めるからだ。映画のように一方的に流れない。読者は自分でページをめくるタイミングを選べる——つまり「覚悟」を作る瞬間が生まれる。
+    </p>
+    <p>
+      井上雄彦の『スラムダンク』の最終回。山王戦のラスト数コマを、多くの読者がゆっくりとめくれなかった経験を持つだろう。あの「めくれない感覚」は、映画館では体験できない。それは漫画という媒体が読者に与える、最後の贈り物だ。
+    </p>
+  </div>
+
+  <div class="pull-quote">
+    <p>ページをめくれない——<br>その一瞬が、漫画という媒体の<br>究極の達成だ。</p>
+    <cite>— 読者と物語のあいだ</cite>
+  </div>
+
+  <div class="body-text">
+    <p>
+      漫画の感情的な力は、「不完全さ」にも根ざしている。絵が写実的でなく、デフォルメされているほど、読者は自分自身を登場人物に投影しやすくなる。これもマクラウドが指摘したことだ。手塚治虫のキャラクターが大きな目を持つのは、感情の読み取りを容易にし、感情移入を深めるための本能的な選択だったのかもしれない。
+    </p>
+  </div>
+</div>
+
+
+<!-- ══ ACCENT STRIPE — CHAPTER 5 ══ -->
+<div class="accent-stripe">
+  <div class="section">
+    <div class="chapter-header">
+      <span class="chapter-num" style="color:rgba(245,240,232,0.7)">Ch.05</span>
+      <h2 style="color:var(--paper)">漫画の未来——<br>デジタルと縦スクロールの時代へ</h2>
+    </div>
+
+    <div class="body-text">
+      <p>
+        スマートフォンの普及とともに、漫画の「読み方」が根本から変わろうとしている。縦スクロール形式の「ウェブトゥーン」は、韓国発でアジア全土、さらに欧米へと広がった。コマとコマの「間」を縦の連続空間に変換したこの形式は、伝統的な漫画とは異なる時間感覚と読書体験を生み出している。
+      </p>
+      <p>
+        日本の漫画出版社もこの波に対応し始めた。「縦読みコミック」や「タテコミ」が次々と生まれ、スマートフォンに最適化された新しい文法が模索されている。しかし一方で、紙の単行本の根強い人気も続く。「所有する」という行為が持つ感覚的な満足——表紙を手に取り、ページをめくり、本棚に並べる——は、デジタルが再現しにくい体験だ。
+      </p>
+      <p>
+        AIが作画を補助し、インディー漫画家が世界に直接配信できる時代。漫画は今、最も民主化された芸術形式になりつつある。誰もがペンを持ち、物語を語れる——その可能性は、手塚治虫が「漫画の神様」と呼ばれた時代よりもはるかに広がっている。
+      </p>
+      <p>
+        しかしどれだけ技術が進化しても、最後に問われるのは同じだ。「この線に魂はあるか」「このコマに必然性はあるか」「このページをめくらせる力があるか」——漫画の本質は、紙であれスクリーンであれ、変わらない。
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ CLOSING ══ -->
+<div class="section">
+  <div class="chapter-header">
+    <span class="chapter-num">Fin.</span>
+    <h2>コマを閉じた後に<br>残るもの</h2>
+  </div>
+
+  <div class="body-text">
+    <p>
+      漫画を読み終えた直後、しばらく本を閉じたまま動けないことがある。物語の余韻が体の中を漂い、現実に戻るのに時間がかかる。これは漫画という媒体が持つ、他に類を見ない没入感の証拠だ。
+    </p>
+    <p>
+      コマとコマのあいだに広がる「間」、一本の線に込められた感情、ページをめくる瞬間の緊張——これらすべてが、漫画を単なる「絵本」ではなく、人類が生み出した最も精巧な感情の装置のひとつにしている。
+    </p>
+    <p>
+      次に漫画を手に取るとき、少しだけ立ち止まってほしい。その白い余白を、その揺れる線を、そのめくれないページを。そこに、作者と読者が共同で作り上げた「宇宙」が広がっている。
+    </p>
+  </div>
+
+  <div class="pull-quote">
+    <p>漫画とは、作者が半分を描き、<br>残りの半分を読者が描く芸術だ。</p>
+    <cite>— コマの向こうへ</cite>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <strong>コマの魔法</strong> &nbsp;|&nbsp; 漫画・批評・文化ブログ<br>
+  All content original · 2026 · Written with love for the medium
+</footer>
+
+</body>
+</html>

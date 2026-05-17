@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恋の引力——ロマンスという名の宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Noto+Serif+JP:wght@300;400;700&family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blush:   #f2d4d0;
+    --rose:    #c0616a;
+    --deep:    #7a1f35;
+    --petal:   #fdf0ee;
+    --dusk:    #1a0d12;
+    --dusty:   #9c6b6b;
+    --gold:    #c8a96e;
+    --sage:    #7a8c6e;
+    --ink:     #2a1820;
+    --mist:    rgba(242,212,208,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    background: var(--dusk);
+    color: var(--petal);
+    font-family: 'Noto Serif JP', serif;
+    overflow-x: hidden;
+  }
+
+  /* ── FLOATING PETALS (CSS only) ── */
+  .petals {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50% 0 50% 0;
+    background: rgba(192,97,106,0.25);
+    animation: fall linear infinite;
+  }
+  .petal:nth-child(1)  { left:8%;   animation-duration:14s; animation-delay:0s;    width:5px;  height:5px; }
+  .petal:nth-child(2)  { left:22%;  animation-duration:18s; animation-delay:3s;    width:4px;  height:4px; background:rgba(200,169,110,0.2); }
+  .petal:nth-child(3)  { left:40%;  animation-duration:12s; animation-delay:7s;    width:7px;  height:7px; }
+  .petal:nth-child(4)  { left:58%;  animation-duration:20s; animation-delay:1s;    width:3px;  height:3px; background:rgba(242,212,208,0.3); }
+  .petal:nth-child(5)  { left:72%;  animation-duration:16s; animation-delay:5s;    width:5px;  height:5px; }
+  .petal:nth-child(6)  { left:88%;  animation-duration:11s; animation-delay:9s;    width:4px;  height:4px; background:rgba(200,169,110,0.2); }
+  .petal:nth-child(7)  { left:15%;  animation-duration:22s; animation-delay:2s;    width:6px;  height:6px; }
+  .petal:nth-child(8)  { left:50%;  animation-duration:17s; animation-delay:6s;    width:3px;  height:3px; }
+
+  @keyframes fall {
+    0%   { transform: translateY(-40px) rotate(0deg);   opacity:0; }
+    10%  { opacity:1; }
+    90%  { opacity:.6; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity:0; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 40%, rgba(192,97,106,0.18) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 30% at 20% 80%, rgba(200,169,110,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 40% at 80% 15%, rgba(122,31,53,0.12) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(18px, 3vw, 26px);
+    color: var(--gold);
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: drift 1.2s 0.2s ease forwards;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 11vw, 140px);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    color: var(--petal);
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: drift 1.2s 0.4s ease forwards;
+    text-shadow: 0 2px 24px rgba(26,13,18,0.7);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--blush);
+    display: block;
+  }
+
+  .hero-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    margin: 36px auto;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: drift 1.2s 0.7s ease forwards;
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(15px, 2.2vw, 22px);
+    color: rgba(253,240,238,0.92);
+    max-width: 480px;
+    line-height: 1.9;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: drift 1.2s 0.9s ease forwards;
+    text-shadow: 0 1px 8px rgba(26,13,18,0.6);
+  }
+
+  @keyframes drift {
+    from { opacity:0; transform: translateY(20px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── MAIN on cream ── */
+  main {
+    position: relative;
+    z-index: 1;
+    background: var(--petal);
+    color: var(--ink);
+  }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 88px 40px;
+    position: relative;
+  }
+
+  .section + .section {
+    border-top: 1px solid rgba(192,97,106,0.12);
+  }
+
+  /* ── CHAPTER TAG ── */
+  .ch-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 18px;
+    color: var(--rose);
+    margin-bottom: 20px;
+  }
+  .ch-tag::before {
+    content: '♡';
+    font-size: 12px;
+    opacity: 0.6;
+  }
+
+  /* ── HEADINGS ── */
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 5vw, 56px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--dusk);
+    margin-bottom: 36px;
+  }
+  h2 em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.5vw, 24px);
+    color: var(--deep);
+    margin: 44px 0 16px;
+  }
+
+  /* ── BODY ── */
+  .body {
+    font-size: clamp(14px, 2vw, 16.5px);
+    line-height: 2.15;
+    color: #3a2228;
+  }
+  .body p + p { margin-top: 1.6em; }
+
+  /* ── PULL QUOTE ── */
+  .pq {
+    margin: 52px 0;
+    padding: 44px 48px;
+    background: var(--dusk);
+    color: var(--petal);
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+  }
+  .pq::before {
+    content: '❝';
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    font-size: 100px;
+    color: rgba(192,97,106,0.12);
+    font-family: 'Cormorant Garamond';
+    line-height: 1;
+  }
+  .pq::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 60% 0%, rgba(192,97,106,0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .pq-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(20px, 3.5vw, 32px);
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+  .pq-cite {
+    display: block;
+    margin-top: 18px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 16px;
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── LETTER CARD ── */
+  .letter {
+    margin: 48px 0;
+    padding: 48px 52px;
+    background: #fff8f6;
+    border: 1px solid rgba(192,97,106,0.18);
+    position: relative;
+    box-shadow: 4px 4px 0 rgba(192,97,106,0.08);
+  }
+  .letter::before {
+    content: '✉';
+    position: absolute;
+    top: -16px;
+    left: 40px;
+    background: #fff8f6;
+    padding: 0 10px;
+    font-size: 20px;
+    color: var(--rose);
+  }
+  .letter-body {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(17px, 2.5vw, 22px);
+    line-height: 1.9;
+    color: #4a2230;
+  }
+  .letter-sig {
+    display: block;
+    margin-top: 24px;
+    text-align: right;
+    font-family: 'Dancing Script', cursive;
+    font-size: 20px;
+    color: var(--rose);
+  }
+
+  /* ── SEASON GRID ── */
+  .season-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin: 48px 0;
+    background: rgba(192,97,106,0.15);
+  }
+  .season-card {
+    background: var(--petal);
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .season-card::before {
+    content: attr(data-icon);
+    position: absolute;
+    right: -10px;
+    bottom: -20px;
+    font-size: 80px;
+    opacity: 0.07;
+    line-height: 1;
+  }
+  .season-card:nth-child(2) { background: #fdf5f2; }
+  .season-card:nth-child(3) { background: #fdf5f2; }
+  .season-name {
+    font-family: 'Dancing Script', cursive;
+    font-size: 20px;
+    color: var(--rose);
+    margin-bottom: 12px;
+  }
+  .season-body {
+    font-size: 13.5px;
+    line-height: 2;
+    color: #5a3038;
+  }
+
+  /* ── DARK BAND ── */
+  .dark-band {
+    background: var(--dusk);
+    color: var(--petal);
+    position: relative;
+    overflow: hidden;
+  }
+  .dark-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 50%, rgba(192,97,106,0.1), transparent),
+      radial-gradient(ellipse 50% 80% at 90% 20%, rgba(200,169,110,0.06), transparent);
+    pointer-events: none;
+  }
+  .dark-band .body { color: rgba(253,240,238,0.93); }
+  .dark-band h2 { color: var(--blush); }
+  .dark-band h3 { color: var(--gold); }
+  .dark-band .section { border-top-color: rgba(255,255,255,0.06) !important; }
+
+  /* ── TIPS LIST ── */
+  .tips {
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .tip-item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    align-items: start;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(253,240,238,0.08);
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--rose);
+    line-height: 1;
+    opacity: 0.6;
+  }
+  .tip-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--blush);
+    margin-bottom: 8px;
+  }
+  .tip-body {
+    font-size: 14px;
+    line-height: 1.95;
+    color: rgba(253,240,238,0.9);
+  }
+
+  /* ── POEM BLOCK ── */
+  .poem {
+    margin: 52px auto;
+    max-width: 480px;
+    text-align: center;
+    padding: 52px 40px;
+    position: relative;
+    border-top: 1px solid rgba(192,97,106,0.2);
+    border-bottom: 1px solid rgba(192,97,106,0.2);
+  }
+  .poem::before, .poem::after {
+    content: '✦';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: var(--rose);
+    opacity: 0.5;
+  }
+  .poem::before { top: -7px; }
+  .poem::after  { bottom: -7px; }
+  .poem p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(16px, 2.5vw, 22px);
+    line-height: 2.2;
+    color: var(--deep);
+  }
+
+  /* ── CLOSING ── */
+  .closing {
+    background: linear-gradient(160deg, var(--dusk) 0%, #2d0f1e 100%);
+    text-align: center;
+    padding: 120px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .closing::before {
+    content: '恋';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(200px, 40vw, 500px);
+    font-weight: 900;
+    color: rgba(192,97,106,0.04);
+    font-family: 'Noto Serif JP';
+    pointer-events: none;
+    line-height: 1;
+  }
+  .closing-script {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(20px, 4vw, 36px);
+    color: var(--gold);
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .closing h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 6vw, 72px);
+    font-weight: 300;
+    color: var(--petal);
+    line-height: 1.15;
+    position: relative;
+    z-index: 1;
+  }
+  .closing h2 em { font-style: italic; color: var(--blush); }
+  .closing-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(15px, 2.2vw, 20px);
+    color: rgba(253,240,238,0.55);
+    max-width: 520px;
+    margin: 32px auto 0;
+    line-height: 1.9;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer {
+    background: #0d0609;
+    text-align: center;
+    padding: 36px 40px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 15px;
+    color: rgba(253,240,238,0.2);
+    position: relative;
+    z-index: 1;
+  }
+  footer strong { color: var(--rose); font-weight: 400; }
+
+  @media (max-width:600px) {
+    .season-grid { grid-template-columns: 1fr; }
+    .tip-item { grid-template-columns: 40px 1fr; gap: 16px; }
+    .letter { padding: 32px 28px; }
+    .pq { padding: 36px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- floating petals -->
+<div class="petals" aria-hidden="true">
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+  <div class="petal"></div><div class="petal"></div>
+</div>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow">愛について、書く。</div>
+  <h1>恋の<em>引力</em></h1>
+  <div class="hero-line"></div>
+  <p class="hero-sub">
+    ロマンスとは何か——설레임の正体、<br>
+    愛の科学、季節と恋の文学、<br>
+    そして誰かを好きになるということ。
+  </p>
+</header>
+
+<main>
+
+<!-- §1 恋とは何か -->
+<div class="section">
+  <div class="ch-tag">恋の定義</div>
+  <h2>「好き」という感情は、<br><em>なぜこんなにも重いのか</em></h2>
+
+  <div class="body">
+    <p>
+      朝、目が覚めた瞬間に頭に浮かぶ顔がある。メッセージの着信音が鳴るたびに胸が跳ね上がる。その人の名前が会話の中で出てくるだけで、自分の頬が熱くなるのがわかる——これが「恋」の始まりだ。
+    </p>
+    <p>
+      恋愛感情は、脳科学的に見ると非常に興味深い現象だ。好きな人のことを考えるとドーパミンが放出され、脳は「報酬」を受け取ったときと同じ反応を示す。同時にセロトニンが低下し、強迫的に相手のことを考えてしまう状態になる。恋は、ある意味で脳が引き起こす「甘い混乱」なのだ。
+    </p>
+    <p>
+      しかし恋を化学式だけで語ることはできない。ドーパミンの放出がなぜよりによって「あの人」によって引き起こされるのか——それはいまだ科学が完全には答えられていない謎だ。恋は理屈ではない。気づいたときにはもう、始まっている。
+    </p>
+  </div>
+
+  <div class="pq">
+    <p class="pq-text">恋とは、相手の存在が<br>自分の世界の重力を変えてしまうことだ。</p>
+    <cite class="pq-cite">— 恋の引力について</cite>
+  </div>
+
+  <div class="body">
+    <p>
+      「설레임（ソルレイム）」という韓国語がある。日本語に完全な訳語はないが、「ときめき・胸のざわめき・期待と緊張が混ざり合った高揚感」を意味する。その感情に固有の名前を持つ言語があるという事実自体が、ロマンスがいかに人間の根本的な経験であるかを示している。
+    </p>
+    <p>
+      フランス語の「<em>coup de foudre</em>（クー・ド・フードル）」は「雷に打たれる」という意味で、一目惚れを指す。日本語の「恋に落ちる」も同様に、恋は制御できない「落下」として語られる。どの言語でも、恋は自分の意志を超えた力として経験される——それが恋の本質かもしれない。
+    </p>
+  </div>
+</div>
+
+<!-- §2 季節と恋 -->
+<div class="section">
+  <div class="ch-tag">季節のロマンス</div>
+  <h2>四季それぞれの<br><em>恋の色</em></h2>
+
+  <div class="body">
+    <p>
+      恋には季節がある。同じ感情でも、春の光の中で生まれる恋と、冬の暗がりで育まれる恋とでは、まるで質感が違う。文学も映画も音楽も、季節と恋を繰り返し結びつけてきた。それはおそらく、偶然ではない。
+    </p>
+  </div>
+
+  <div class="season-grid">
+    <div class="season-card" data-icon="🌸">
+      <div class="season-name">春の恋——始まりの予感</div>
+      <div class="season-body">
+        桜の木の下で出会う恋は、その美しさゆえに儚い。春の恋は「始まり」の象徴だ。新しい学校、新しい職場、新しい自分——すべてが更新される季節に、恋もまた産声を上げる。花びらが散るように、その鮮やかさが長続きしないことを、私たちはどこかで知りながら愛でている。
+      </div>
+    </div>
+    <div class="season-card" data-icon="☀️">
+      <div class="season-name">夏の恋——燃える今</div>
+      <div class="season-body">
+        夏の恋は激しく、眩しく、そして短い。花火のような恋だ。日が長く、体温が高く、肌の距離が近い。夏の終わりが近づくにつれ、「この季節が終わる前に」という焦りが恋を加速させる。だから夏の恋は、誰の記憶の中でも特別に輝いて残る。
+      </div>
+    </div>
+    <div class="season-card" data-icon="🍂">
+      <div class="season-name">秋の恋——深まる感情</div>
+      <div class="season-body">
+        秋の恋は成熟している。派手さはないが、深い。色づく葉のように、感情がゆっくりと豊かな色彩を帯びていく。二人で歩く並木道、温かいコーヒーを両手で包む感触、少し長くなった夜に語り合う言葉——秋の恋は「一緒にいること」の意味を教えてくれる。
+      </div>
+    </div>
+    <div class="season-card" data-icon="❄️">
+      <div class="season-name">冬の恋——静かな温もり</div>
+      <div class="season-body">
+        冬の恋はもっとも誠実だ。飾り気のない寒さの中で、人は本当に必要なものを知る。誰かの体温が、これほど価値あるものだと気づく。マフラーの向こうで交わす視線、暖かい部屋で隣り合う静けさ——冬の恋は、派手さの中でなく、静けさの中で「この人でいい」と確信する恋だ。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- §3 恋文 -->
+<div class="section">
+  <div class="ch-tag">言葉と愛</div>
+  <h2>言葉が恋を<em>形にする</em>とき</h2>
+
+  <div class="body">
+    <p>
+      恋している人は、突然詩人になる。普段は口下手な人が、思いがけず美しい言葉を探し始める。恋は、言語の能力を引き出す感情だ。なぜなら、「この気持ちを伝えたい」という欲求が、人を言葉の可能性の端まで追い詰めるからだ。
+    </p>
+    <p>
+      歴史上の最も美しい恋文を読むと、時代も言語も超えて、人間の感情の普遍性に打たれる。ナポレオンがジョゼフィーヌに送った手紙、キーツがファニー・ブローンに送った手紙、そして日本の万葉集に収められた恋の短歌——いずれも、書いた人の時代は違えど、伝えようとしている感情はまったく同じだ。
+    </p>
+  </div>
+
+  <div class="letter">
+    <div class="letter-body">
+      あなたのことを考えない瞬間がない。<br>
+      昨日の夕暮れの色も、今朝の雨の音も、<br>
+      なぜかすべてがあなたと結びついている。<br><br>
+      これは恋なのだろうか、と問うたびに、<br>
+      胸のどこかが静かに答える。<br>
+      ——そうだよ、と。
+    </div>
+    <cite class="letter-sig">— ある夜の手紙</cite>
+  </div>
+
+  <div class="body">
+    <p>
+      現代のロマンスは、手紙からメッセージアプリへと移行した。しかしその本質は変わらない。既読がついた瞬間の緊張、返信を待つ数分間の長さ、「おやすみ」という最後のひと言を打つときの名残惜しさ——デジタルの画面の上でも、人間の感情は何も変わっていない。
+    </p>
+    <p>
+      むしろ現代の恋は、言葉の密度が増したとも言える。スタンプ一つ、絵文字一つの選択に、思いのほか多くの感情が込められる。あえて送る「。」の一点が、冷たさを意味するのか丁寧さを意味するのか、受け取る側は真剣に考える。恋している人間にとって、相手のすべての発信が暗号のように見える。
+    </p>
+  </div>
+
+  <div class="poem">
+    <p>
+      「逢ひみての のちの心に くらぶれば<br>
+      昔はものを 思はざりけり」<br><br>
+      <small style="font-size:0.75em;opacity:0.6">— 藤原敦忠（百人一首43番）</small>
+    </p>
+  </div>
+</div>
+
+<!-- §4 ロマンスの作法 (dark) -->
+<div class="dark-band">
+  <div class="section">
+    <div class="ch-tag" style="color:var(--gold)">恋の作法</div>
+    <h2>ロマンスを<em>育てる</em>10の習慣</h2>
+
+    <div class="body">
+      <p>
+        「付き合う」ことが始まりではなく、その後に恋をいかに育てるかがロマンスの本番だ。感情は放置すれば自然と薄れる。ロマンスとは、日常の中に意図的に「特別」を作り続ける努力だ。
+      </p>
+    </div>
+
+    <div class="tips">
+      <div class="tip-item">
+        <div class="tip-num">01</div>
+        <div>
+          <div class="tip-title">名前を呼ぶ</div>
+          <div class="tip-body">相手の名前を声に出して呼ぶことは、意外なほど大切だ。「ねえ」や「あのさ」ではなく、その人固有の名前を呼ぶことで、「あなたに話しかけている」という特別な意識が生まれる。</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">02</div>
+        <div>
+          <div class="tip-title">「思い出した」を伝える</div>
+          <div class="tip-body">「これを見てあなたを思い出した」という一言ほど、人を嬉しくさせるものはない。バラの花を贈ることより、道端で見た看板の言葉があなたに似てたと伝える方が、ずっとロマンティックなことがある。</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">03</div>
+        <div>
+          <div class="tip-title">「初めて」を意識的に作る</div>
+          <div class="tip-body">「初めて一緒に〇〇をする」という経験は、共有された記憶の宝庫になる。行ったことのない街、食べたことのない料理、見たことのない景色——新しい経験は二人の関係に新鮮な酸素を送り込む。</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">04</div>
+        <div>
+          <div class="tip-title">手紙を書く（メッセージではなく）</div>
+          <div class="tip-body">手で書いた文字には、デジタルには宿らない温度がある。誕生日でも記念日でもない日に、ふと手紙を渡す——その「理由のなさ」がロマンスだ。</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">05</div>
+        <div>
+          <div class="tip-title">黙って隣にいる時間を大切にする</div>
+          <div class="tip-body">何かを話し続けなくてもいい二人の沈黙は、関係の成熟のサインだ。言葉なく同じ空間で過ごせること——それは信頼の別名だ。ロマンスは会話の中だけでなく、沈黙の中にも宿る。</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">06</div>
+        <div>
+          <div class="tip-title">「好きだよ」を言葉にする</div>
+          <div class="tip-body">「伝わっているはずだ」という思い込みが、恋を静かに傷つける。言葉にしなければ伝わらないことが、世界には思いのほか多い。恥ずかしさより、伝わることの方がずっと大切だ。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- §5 恋と文学 -->
+<div class="section">
+  <div class="ch-tag">文学とロマンス</div>
+  <h2>恋を描いた物語が<br>教えてくれること</h2>
+
+  <div class="body">
+    <p>
+      なぜ人間は恋愛小説を読むのか。実際の恋愛は十分に複雑で、消耗することもある。それなのに、なぜ私たちはわざわざ本の中の恋を追いかけるのか。
+    </p>
+    <p>
+      答えの一つは、「感情の練習」だ。物語の中で誰かの恋を追体験することで、私たちは自分の感情に名前をつけることを学ぶ。「嫉妬」「切なさ」「愛おしさ」——これらの感情を言語化する能力は、実は文学によって育てられる部分が大きい。恋愛小説を読んだ人は、自分の恋をより豊かに感じ、より正確に語ることができるようになる。
+    </p>
+  </div>
+
+  <h3>ロマンスの名作が語る真実</h3>
+
+  <div class="body">
+    <p>
+      ジェイン・オースティンの『高慢と偏見』が200年を経ても読まれ続けるのは、エリザベスとダーシーの関係が描く「誤解・プライド・そして本当の理解に至るまでの過程」が、時代を超えて普遍的だからだ。好きになることよりも、相手を正しく知ることの方がずっと難しい——この真実は、スマートフォンの時代でも変わらない。
+    </p>
+    <p>
+      夏目漱石の『こころ』には、恋愛感情と道徳の葛藤が静かに刻まれている。「恋は罪悪だ」という先生の言葉は、愛することの重さと怖さを語る。日本の文学における恋愛は、しばしば「美しさと哀しさ」が不可分に結びついている。散る花のように、失われることを予感しながら愛する——それが日本のロマンスの美学かもしれない。
+    </p>
+    <p>
+      村上春樹の作品に登場する恋は、つかもうとすると指の間から砂のようにこぼれ落ちる。『ノルウェイの森』のワタナベは、喪失と恋の間で揺れながら、愛することの意味を探し続ける。その切なさが、何百万人もの読者の胸に刺さるのは、誰もがどこかで「つかめなかった誰か」を持っているからだ。
+    </p>
+  </div>
+
+  <div class="pq">
+    <p class="pq-text">恋愛小説を読むとは、<br>他人の恋を借りて<br>自分の感情の地図を描くことだ。</p>
+    <cite class="pq-cite">— 文学とロマンスについて</cite>
+  </div>
+</div>
+
+<!-- §6 長く愛するために -->
+<div class="section">
+  <div class="ch-tag">愛の持続</div>
+  <h2>「恋」が「愛」に<em>育つ</em>とき</h2>
+
+  <div class="body">
+    <p>
+      恋の初期に脳で起きるドーパミンの嵐は、平均して1〜3年で落ち着くと言われている。「ときめき」が薄れると、「恋が冷めた」と感じる人も多い。しかしそれは終わりではなく、むしろ本当の関係の始まりかもしれない。
+    </p>
+    <p>
+      心理学者のロバート・スタンバーグは「愛の三角理論」を提唱した。愛は「親密さ」「情熱」「コミットメント」の三要素から成り、これらのバランスが愛の形を決める。恋の初期には情熱が突出するが、長く続く関係では親密さとコミットメントが根を張り、情熱はより深い形に変化する。
+    </p>
+    <p>
+      長い時間を共にした二人が交わすさりげない視線、習慣になった「おやすみ」の言葉、相手の体調を先読みして出す一杯のお茶——これらは「ときめき」ではないかもしれないが、それ以上に豊かな何かだ。恋が「特別な日の花」なら、愛は「毎日の水」だ。どちらも、生きるために必要なものだ。
+    </p>
+  </div>
+
+  <div class="letter">
+    <div class="letter-body">
+      付き合って何年経っても、<br>あなたが笑うと、なぜだか胸が温かくなる。<br>それはもうドキドキじゃないかもしれない。<br><br>
+      でも、これが愛なのだと思う。<br>ドキドキより、もっと深いところで<br>根を張った、何か。
+    </div>
+    <cite class="letter-sig">— 長い恋の果てに</cite>
+  </div>
+</div>
+
+<!-- ══ CLOSING ══ -->
+<div class="closing">
+  <div class="closing-script">愛することの意味</div>
+  <h2>結局、<em>ロマンス</em>とは<br>何なのだろう</h2>
+  <p class="closing-body">
+    ロマンスとは、誰かの存在によって世界の見え方が変わる経験だ。<br>
+    空の青が少し深く見え、音楽がより心に刺さり、<br>
+    毎日の些細な出来事に意味が宿る——<br>
+    それがロマンスの本質だと、私は思う。<br><br>
+    科学で説明できても、言葉で語り尽くせても、<br>
+    恋の不思議は消えない。<br>
+    なぜあの人なのか。それだけは、誰にもわからない。<br><br>
+    だからこそ、恋は美しい。
+  </p>
+</div>
+</main>
+
+<footer>
+  <strong>恋の引力</strong> &nbsp;·&nbsp; ロマンス・愛・感情のブログ &nbsp;·&nbsp; 2026
+</footer>
+
+</body>
+</html>
