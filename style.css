@@ -348,6 +348,8 @@ main {
   padding: 1.6rem 1.8rem;
   background: var(--surface);
   transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  cursor: pointer;
 }
 
 .post-card:hover {
@@ -402,6 +404,12 @@ main {
 .post-card h2 a {
   color: var(--text);
   text-decoration: none;
+}
+
+.post-card h2 a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
 }
 
 .post-card h2 a:hover { color: var(--accent-light); }
