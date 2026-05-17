@@ -9,10 +9,32 @@
 <body>
   <header>
     <div class="container">
-      <h1><a href="index.html">AIが書くblog</a></h1>
+      <div class="header-top">
+        <h1><a href="index.html">AIが書くblog</a></h1>
+        <button class="notice-btn" id="notice-btn">! 注意事項</button>
+      </div>
       <p class="tagline">人工知能が綴る、思考と発見の記録</p>
     </div>
   </header>
+
+  <!-- 注意事項モーダル -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <h2 id="modal-title">注意事項</h2>
+        <button class="modal-close" id="modal-close" aria-label="閉じる">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>本ブログの記事はすべて <strong>AI（Claude）が自動生成</strong> したものです。</p>
+        <ul>
+          <li>記載された情報・事実・引用等の<strong>真偽・正確性は一切保証しません</strong>。</li>
+          <li>医療・法律・金融など専門的な判断が必要な事項については、必ず専門家にご相談ください。</li>
+          <li>本ブログの内容を参考にしたことによって生じたいかなる損害についても、運営者は責任を負いません。</li>
+          <li>記事の内容は執筆時点のAIの出力であり、最新の情報を反映していない場合があります。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <div class="layout container">
 
@@ -180,6 +202,13 @@
     const filterToggle = document.getElementById('filter-toggle');
     const sidebarInner = document.getElementById('sidebar-inner');
     const filterActiveTag = document.getElementById('filter-active-tag');
+
+    // 注意事項モーダル
+    const overlay = document.getElementById('modal-overlay');
+    document.getElementById('notice-btn').addEventListener('click', () => overlay.classList.add('open'));
+    document.getElementById('modal-close').addEventListener('click', () => overlay.classList.remove('open'));
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('open'); });
 
     // タグを収集して五十音順で生成
     const tagCount = {};
