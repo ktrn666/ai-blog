@@ -93,10 +93,11 @@
   }
 
   .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(80px, 18vw, 240px);
-    line-height: 0.9;
-    letter-spacing: -0.01em;
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(48px, 10vw, 130px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: 0.05em;
     position: relative;
     opacity: 0;
     animation: up 1s 0.3s ease forwards;
@@ -104,12 +105,14 @@
 
   /* Split text coloring */
   .hero-title .t-black {
-    color: var(--white);
+    color: #ffffff;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.6);
     display: block;
   }
   .hero-title .t-white {
-    color: var(--black);
-    -webkit-text-stroke: 1px var(--black);
+    color: #ffffff;
+    -webkit-text-stroke: 0;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.6);
     display: block;
   }
 
