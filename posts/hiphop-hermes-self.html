@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>橙と金——ヒップホップ、エルメス、自己の境界</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Noto+Serif+JP:wght@300;400;700;900&family=Bebas+Neue&family=Noto+Sans+JP:wght@100;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:   #080808;
+  --deep:    #0e0e0e;
+  --hermes:  #e8620a;
+  --hermes2: #f5a04a;
+  --gold:    #c9a84c;
+  --gold2:   #e8d5a0;
+  --white:   #f2ede6;
+  --off:     #c8c0b4;
+  --muted:   #666;
+  --surface: #141414;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Noto Serif JP', serif;
+  overflow-x: hidden;
+}
+
+/* ── BACK BUTTON ── */
+.back-to-top {
+  position: fixed;
+  top: 1.2rem;
+  left: 1.2rem;
+  z-index: 999;
+  background: rgba(10,10,10,0.82);
+  color: #a59aff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.back-to-top:hover {
+  background: rgba(124,106,255,0.25);
+  color: #c5bcff;
+  border-color: rgba(124,106,255,0.4);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 50%, rgba(232,98,10,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 75% 40%, rgba(201,168,76,0.08) 0%, transparent 60%),
+    var(--black);
+}
+
+.hero-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(232,98,10,0.3) 30%, rgba(232,98,10,0.3) 70%, transparent);
+  transform: translateX(-50%);
+}
+
+.hero-eyebrow {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.55em;
+  color: var(--hermes);
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: fadeUp 1s 0.2s ease forwards;
+}
+
+.hero-title {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: fadeUp 1s 0.4s ease forwards;
+}
+
+.hero-title .line-luxury {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(52px, 11vw, 150px);
+  line-height: 0.9;
+  color: var(--gold2);
+  letter-spacing: -0.01em;
+}
+
+.hero-title .line-street {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 10vw, 140px);
+  line-height: 0.95;
+  color: var(--hermes);
+  letter-spacing: 0.04em;
+  -webkit-text-stroke: 1px var(--hermes);
+}
+
+.hero-title .line-sub {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(28px, 5vw, 72px);
+  color: var(--off);
+  letter-spacing: 0.05em;
+  margin-top: 0.3em;
+}
+
+.hero-desc {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin-top: 3rem;
+  font-size: clamp(13px, 1.8vw, 15px);
+  line-height: 2.1;
+  color: var(--muted);
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeUp 1s 0.7s ease forwards;
+}
+
+.hero-scroll {
+  position: relative;
+  z-index: 1;
+  margin-top: 4rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  color: var(--muted);
+  opacity: 0;
+  animation: fadeUp 1s 1.1s ease forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--hermes) 40%, var(--hermes) 60%, transparent);
+  opacity: 0.25;
+}
+
+/* ── SECTION ── */
+.section {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 96px 40px;
+}
+
+.section-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  color: var(--hermes);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--hermes);
+  opacity: 0.25;
+  max-width: 60px;
+}
+
+.section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: 1.25;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.01em;
+  color: var(--white);
+}
+
+.section h2 em {
+  font-style: italic;
+  color: var(--gold2);
+}
+
+.body-text {
+  font-size: clamp(14px, 1.9vw, 16px);
+  line-height: 2.3;
+  color: var(--off);
+  font-weight: 300;
+}
+
+.body-text p + p {
+  margin-top: 1.8em;
+}
+
+.body-text strong {
+  color: var(--white);
+  font-weight: 700;
+}
+
+/* ── QUOTE ── */
+.pull-quote {
+  border-left: 3px solid var(--hermes);
+  padding: 1.5rem 2rem;
+  margin: 3rem 0;
+  background: rgba(232,98,10,0.04);
+}
+
+.pull-quote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.6;
+  color: var(--gold2);
+  font-weight: 300;
+}
+
+.pull-quote cite {
+  display: block;
+  margin-top: 0.8rem;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  font-style: normal;
+}
+
+/* ── SPLIT ── */
+.split-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.split-side {
+  padding: 72px 48px;
+}
+
+.split-left {
+  background: var(--black);
+  border-right: 1px solid rgba(232,98,10,0.2);
+}
+
+.split-right {
+  background: #0a0a0a;
+}
+
+.split-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  margin-bottom: 1.5rem;
+}
+
+.split-left .split-label { color: var(--hermes); }
+.split-right .split-label { color: var(--gold); }
+
+.split-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+}
+
+.split-left .split-heading { color: var(--white); }
+.split-right .split-heading { color: var(--gold2); }
+
+.split-body {
+  font-size: 14px;
+  line-height: 2.1;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+/* ── WORD LIST ── */
+.word-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.05);
+  margin: 3rem 0;
+}
+
+.word-item {
+  background: var(--deep);
+  padding: 1.5rem;
+}
+
+.word-item .word-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--gold2);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.word-item .word-ja {
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* ── CLOSING ── */
+.closing {
+  background: linear-gradient(to bottom, var(--black), #0a0500);
+  padding: 100px 40px;
+  text-align: center;
+}
+
+.closing-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.closing h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 300;
+  color: var(--gold2);
+  line-height: 1.3;
+  margin-bottom: 2rem;
+}
+
+.closing p {
+  font-size: clamp(13px, 1.8vw, 15px);
+  line-height: 2.2;
+  color: var(--muted);
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.closing-mark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  color: rgba(232,98,10,0.4);
+  margin-top: 3rem;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 680px) {
+  .hero { padding: 100px 24px 60px; }
+  .section { padding: 64px 24px; }
+  .split-section { grid-template-columns: 1fr; }
+  .split-left { border-right: none; border-bottom: 1px solid rgba(232,98,10,0.2); }
+  .split-side { padding: 48px 24px; }
+  .closing { padding: 64px 24px; }
+  .pull-quote { padding: 1.2rem 1.4rem; }
+}
+</style>
+</head>
+<body>
+
+<a href="../index.html" class="back-to-top">← トップ</a>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+
+  <p class="hero-eyebrow">Essay · Identity · Fashion · 2026</p>
+
+  <h1 class="hero-title">
+    <span class="line-luxury">Hermès</span>
+    <span class="line-street">× HIP-HOP</span>
+    <span class="line-sub">自己の境界</span>
+  </h1>
+
+  <p class="hero-desc">
+    橙色の箱を手にした瞬間、何かが変わる。<br>
+    それはモノを手に入れたのか、<br>
+    それとも「自分」の輪郭を塗り替えたのか。
+  </p>
+
+  <p class="hero-scroll">scroll ↓</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 1 -->
+<div class="section">
+  <p class="section-label">01 · 出会い</p>
+  <h2>ストリートが<em>エルメス</em>を纏うとき</h2>
+  <div class="body-text">
+    <p>
+      1990年代のニューヨーク。サウスブロンクスのコーナーに立つラッパーたちが、
+      バーキンやケリーバッグについて歌い始めた。
+      それは単なる富の誇示ではなかった。エルメスという記号は、
+      本来自分たちには「届かないはずの場所」への侵入宣言だった。
+    </p>
+    <p>
+      ヒップホップは生まれた瞬間から、<strong>境界を越える音楽</strong>だった。
+      貧困と豊かさ、ブラックカルチャーとホワイトメインストリーム、
+      ローカルとグローバル——その全ての境界線上でビートは刻まれた。
+      そしてエルメスは、その中でも最も硬い壁の一つだった。
+    </p>
+    <p>
+      招待客のみが入れるブティック。何年待ちの購入リスト。
+      サドル職人が一針一針縫うバッグ。
+      フランスのメゾンが積み上げた「排他性」という城壁を、
+      ヒップホップは正面から叩いた。城壁は崩れなかったが、
+      その意味は変わった。
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SPLIT -->
+<div class="split-section">
+  <div class="split-side split-left">
+    <p class="split-label">Hermès</p>
+    <h3 class="split-heading">1837年から続く<br>排他の美学</h3>
+    <p class="split-body">
+      エルメスの哲学は「最良のものだけを、必要な人だけに」だ。
+      量産を拒み、熟練職人の手技にこだわり、
+      価格をあえて公表しない。知っている人だけが知っている——
+      そのクローズドな世界観こそが価値の源泉だった。
+      「誰でも持てる」ものは、エルメスではない。
+    </p>
+  </div>
+  <div class="split-side split-right">
+    <p class="split-label">Hip-Hop</p>
+    <h3 class="split-heading">1973年から続く<br>開放の美学</h3>
+    <p class="split-body">
+      ヒップホップの哲学は「誰でも参加できる」だ。
+      DJのターンテーブル、MCのマイク、
+      ブレイクダンスのダンスフロア——
+      お金も学歴も出身も関係ない。
+      自分を表現する意志さえあれば、それがヒップホップだ。
+      「誰でも持てる」ことこそが、力の源泉だった。
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 2 -->
+<div class="section">
+  <p class="section-label">02 · 記号論</p>
+  <h2><em>橙色の箱</em>が語ること</h2>
+  <div class="body-text">
+    <p>
+      エルメスのトレードマークはあの橙色——ブランド名で言えば「ヴォー・ドルンジュ」だ。
+      第二次世界大戦中の物資不足で、本来使っていたクリーム色の紙が手に入らず、
+      倉庫に残っていた橙色の紙を使ったことが起源とされる。
+      偶然が生んだ色が、今や世界で最も認識される高級の記号になった。
+    </p>
+    <p>
+      ラッパーたちがバーキンをリリックに乗せるとき、
+      彼らは単に「高いものを買った」と言っているのではない。
+      <strong>「お前らだけのものだと思っていたものを、俺も手に入れた」</strong>と言っている。
+      それは階級への挑戦であり、人種的偏見への回答であり、
+      「ここにいる資格がない」という社会的メッセージへの反論だ。
+    </p>
+    <p>
+      記号は文脈によって意味が変わる。
+      エルメスという記号を白人富裕層の手元に置いたとき、
+      それは「当然の所有」を意味する。
+      しかし黒人ラッパーの手元に置いたとき、
+      同じ記号が「革命」を意味することがある。
+      モノは変わらない。意味を変えるのは、誰が持つかだ。
+    </p>
+  </div>
+
+  <div class="pull-quote">
+    <p>「ものを持つとは、その記号の意味を自分のものにすることだ。<br>
+    しかし記号は、持つ人間の文脈によって意味を書き換えられる。」</p>
+    <cite>— Roland Barthes 的な観点から</cite>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 3 -->
+<div class="section">
+  <p class="section-label">03 · 自己論</p>
+  <h2>境界線は<em>どこに</em>引かれるか</h2>
+  <div class="body-text">
+    <p>
+      「自己の境界」とは何か。哲学的には、
+      自分と他者を分ける輪郭のことだ。
+      しかしその輪郭は固定されていない。
+      私たちは常に、身にまとうもの——服、音楽、言葉、態度——によって
+      その境界を動かしている。
+    </p>
+    <p>
+      ヒップホップとエルメスの組み合わせが面白いのは、
+      それが<strong>二つの「自己」の衝突</strong>だからだ。
+      ヒップホップが表現する自己は流動的で、ストリートに根ざし、
+      コミュニティとともにある。
+      エルメスが象徴する自己は固定的で、個人の洗練を誇示し、
+      排他的なクラブの会員証だ。
+    </p>
+    <p>
+      しかし現代のアーティストたちはその二つを同時に纏う。
+      カニエ・ウェストはパリのファッションウィークに出席しながら、
+      シカゴのサウスサイドへの帰属を歌う。
+      Jayson Tatum はバーキンをコートサイドに持ち込みながら、
+      コミュニティバスケットコートで育った自分を語る。
+      彼らの自己には、矛盾する二つの境界線が共存している。
+    </p>
+  </div>
+
+  <div class="word-grid">
+    <div class="word-item">
+      <span class="word-en">Authenticity</span>
+      <span class="word-ja">本物らしさ／真正性</span>
+    </div>
+    <div class="word-item">
+      <span class="word-en">Code-switching</span>
+      <span class="word-ja">文脈による自己切替</span>
+    </div>
+    <div class="word-item">
+      <span class="word-en">Aspirational identity</span>
+      <span class="word-ja">なりたい自己への投資</span>
+    </div>
+    <div class="word-item">
+      <span class="word-en">Cultural capital</span>
+      <span class="word-ja">文化的資本の占有</span>
+    </div>
+  </div>
+
+  <div class="body-text">
+    <p>
+      心理学者エリク・エリクソンは「アイデンティティは一つの核ではなく、
+      複数の役割の統合だ」と言った。
+      私たちは職場の自分、家族の中の自分、友人といる自分、
+      そして鏡の前の自分を、何とか一つの物語として編集している。
+      ヒップホップとエルメスを同時に愛する人間は、
+      その「複数の自分」を隠さずに表に出す。
+      それは混乱ではなく、<strong>拡張された自己</strong>の宣言だ。
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 4 -->
+<div class="section">
+  <p class="section-label">04 · 問い</p>
+  <h2>「本物」とは<em>誰が</em>決めるのか</h2>
+  <div class="body-text">
+    <p>
+      ヒップホップのコミュニティでは長い間、
+      「キーピング・イット・リアル」という概念が重視された。
+      自分のルーツを裏切らないこと。売れても変わらないこと。
+      しかしエルメスのバッグを持つことは、
+      その「リアル」から外れることになるのか？
+    </p>
+    <p>
+      一方でエルメスのコミュニティ——もしそれが存在するとすれば——には
+      別の「本物」の基準がある。
+      世代を超えて使い続けられること。流行に左右されない選択眼。
+      正規ルートで購入したこと（と、その証明）。
+    </p>
+    <p>
+      どちらの「本物」も、<strong>他者が定めた基準</strong>だ。
+      そして両方の基準に同時に応答しようとするとき、
+      人は自分自身の「本物」を問い直す場所に立たされる。
+      ——これは、ファッションの話ではない。
+      存在の問いだ。
+    </p>
+
+    <div class="pull-quote">
+      <p>「私は何者か」という問いは、<br>「私は何を身にまとうか」という問いと、<br>思ったより近い場所にある。</p>
+    </div>
+
+    <p>
+      エルメスのサドルバッグは、かつて馬術用品を運ぶためのものだった。
+      それが富の記号になり、さらにヒップホップの文脈でカウンターカルチャーの記号になった。
+      モノの意味は流れる。人の自己も流れる。
+      境界は常に、今この瞬間に引き直されている。
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="closing-inner">
+    <h2>境界が溶ける場所で、<br>自己は始まる</h2>
+    <p>
+      ヒップホップとエルメスが交差する地点は、
+      単なるカルチャーミックスの話ではない。
+      それは「自分がどこに属するか」という問いへの、
+      一つの身体的な回答だ。
+    </p>
+    <p>
+      橙色の箱を抱えてビートに乗る人は、
+      二つの世界の間に立っているのではなく、
+      その二つを含む、より大きな自己の中に立っている。
+    </p>
+    <p>
+      境界は壁ではなかった。<br>
+      境界は、新しい自己が生まれる場所だった。
+    </p>
+    <p class="closing-mark">— AI が書いた / Claude · 2026</p>
+  </div>
+</div>
+
+</body>
+</html>
